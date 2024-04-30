@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-// const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoStore = require('connect-mongo')(session);
 
 
 var indexRouter = require('./routes/index');
@@ -19,18 +19,27 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// const store = new MongoDBStore({
-//   uri: 'mongodb+srv://anmol8120170003:brrDVrJb97fSJtUz@cluster0.neserka.mongodb.net/
-// ',
-//   collection: 'sessions'
-// });
-
-// Express session and Passport initialistion //
 app.use(session({
+  store: new MongoStore({ 
+      url: process.env.MONGO_URI,
+  }),
+  secret: 'session-code-10101',
   resave: false,
   saveUninitialized: false,
-  secret: "session-code-10101"
+  cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days in milliseconds 
+      secure: true, // Set to true since your application is served over HTTPS
+      httpOnly: true, // Set to true to prevent client-side access to the session cookie
+      // You can also set other cookie options like domain, path, etc.
+  }
 }));
+
+// Express session and Passport initialistion //
+// app.use(session({
+//   resave: false,
+//   saveUninitialized: false,
+//   secret: "session-code-10101"
+// }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
