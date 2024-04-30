@@ -18,8 +18,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-console.log('1) URI: ' + process.env.MONGO_URI);
 
+// Express session initialistion //
 const sessionConfig = {
   secret: 'animeflare secret_code-4004', 
   resave: true, 
@@ -28,7 +28,7 @@ const sessionConfig = {
     mongoUrl: process.env.MONGO_URI
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 28,
     httpOnly: true,
   }
 };
@@ -41,14 +41,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionConfig));
 
 
-// Express session and Passport initialistion //
-// app.use(session({
-//   resave: false,
-//   saveUninitialized: false,
-//   secret: "session-code-10101"
-// }));
-
-
+// Passport initialistion //
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
