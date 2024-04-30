@@ -19,14 +19,15 @@ app.set('view engine', 'ejs');
 
 
 try {
-  const MongoStore = require('connect-mongo')(session);
+  const MongoStore = new require('connect-mongo')(session);
   const store = new MongoStore({
       url: process.env.MONGO_URI,
   });
-  console.log('URI: ' + process.env.MONGO_URI);
+  console.log('1) URI: ' + process.env.MONGO_URI);
 } catch (error) {
   console.error('Error initializing MongoStore:', error);
 }
+console.log('2) URI: ' + process.env.MONGO_URI);
 
 // app.use(session({
   //   store: new MongoStore({ 
