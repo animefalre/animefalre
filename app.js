@@ -8,8 +8,6 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
 
-
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -19,32 +17,39 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
 try {
   const MongoStore = require('connect-mongo')(session);
   const store = new MongoStore({
       url: process.env.MONGO_URI,
   });
-  app.use(session({
-    store: store,
-    secret: 'session-code-10101',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        secure: true, 
-        httpOnly: true,
-    }
-  }));
+  console.log('URI: ' + process.env.MONGO_URI);
 } catch (error) {
   console.error('Error initializing MongoStore:', error);
-}  
+}
 
-// // Express session and Passport initialistion //
 // app.use(session({
+  //   store: new MongoStore({ 
+    //       url: process.env.MONGO_URI,
+//   }),
+//   secret: 'session-code-10101',
 //   resave: false,
 //   saveUninitialized: false,
-//   secret: "session-code-10101"
+//   cookie: {
+//       maxAge: 1000 * 60 * 60 * 24 * 7,
+//       secure: true, 
+//       httpOnly: true,
+//   }
 // }));
+
+// Express session and Passport initialistion //
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: "session-code-10101"
+}));
+
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
