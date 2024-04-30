@@ -110,6 +110,7 @@ router.get('/search-suggestions', async (req, res) => {
 
 
 const today = new Date();
+console.log(today);
 today.setHours(0, 0, 0, 0);
 
 // home page
