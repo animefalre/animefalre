@@ -820,6 +820,12 @@ router.post('/delete-episode', async (req, res) => {
   }
 });
 
+// if (err) {
+//   return next(err);
+// }
+// // If authentication failed due to user not found, display a custom flash message
+// req.flash("error", "User not found");
+
 // Login and Register code //
 // Register route
 router.post('/register', function (req, res) {
@@ -853,59 +859,117 @@ router.post('/register', function (req, res) {
     });
 });
 
-// Chech logged in
-router.get('/check-loggedin', async (req, res, next) => {
-  if (req.isAuthenticated()) {
-      const user = await userModel.findOne({
-        username: req.session.passport.user});
-      res.redirect('/account/' + user.username);
-    } else {
-      res.redirect('/login');
-    }
-})
+// // Chech logged in
+// router.get('/check-loggedin', async (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//       const user = await userModel.findOne({
+//         username: req.session.passport.user});
+//       res.redirect('/account/' + user.username);
+//     } else {
+//       res.redirect('/login');
+//     }
+// })
 
 
-// login route
-router.post("/login", function(req, res, next) {
-  passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/login",
-    failureFlash: true // Enable failure flash messages
-  })(req, res, function(err) {
-    if (err) {
-      return next(err);
-    }
-    // If authentication failed due to user not found, display a custom flash message
-    req.flash("error", "User not found");
-    res.redirect("/login");
+// // login route
+// router.post("/login", function(req, res, next) {
+//   passport.authenticate("local", {
+//     successRedirect: "/home",
+//     failureRedirect: "/login",
+//     failureFlash: true // Enable failure flash messages
+//   })(req, res, function(err) {
+//     if (err) {
+//       return next(err);
+//     }
+//     // If authentication failed due to user not found, display a custom flash message
+//     req.flash("error", "User not found");
+//     res.redirect("/login");
+//   });
+// });
+
+// //logout route
+// router.get('/logout', function (req, res, next) {
+//   req.logout(function (err) {
+//     if (err) { return next(err); }
+//     res.redirect('/login');
+//   });
+// });
+
+// // Delete account route
+// router.get('/delete-account', isLoggedIn, async function (req, res, next) {
+//   const user = await userModel.findOneAndDelete({
+//     username: req.session.passport.user});
+
+//     res.render('deletedAccount');
+
+// });
+
+
+// // Code for IsLoggedIn Middleware
+// function isLoggedIn(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect("/login");
+// }
+
+// index.js (routes)
+
+// Passport configuration
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  userModel.findById(id, function(err, user) {
+    done(err, user);
   });
 });
 
-//logout route
-router.get('/logout', function (req, res, next) {
-  req.logout(function (err) {
-    if (err) { return next(err); }
+// Login route
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/home",
+  failureRedirect: "/login",
+  failureFlash: true // Enable failure flash messages
+}));
+
+// Check if logged in route
+router.get('/check-loggedin', async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const user = await userModel.findOne({ username: req.user.username });
+    res.redirect('/account/' + user.username);
+  } else {
     res.redirect('/login');
-  });
+  }
+});
+
+// Logout route
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/login');
 });
 
 // Delete account route
 router.get('/delete-account', isLoggedIn, async function (req, res, next) {
-  const user = await userModel.findOneAndDelete({
-    username: req.session.passport.user});
-
+  try {
+    await userModel.findOneAndDelete({ _id: req.user._id });
+    req.logout();
     res.render('deletedAccount');
-
+  } catch (err) {
+    console.error('Error deleting account:', err);
+    res.status(500).send('Failed to delete account');
+  }
 });
 
-
-// Code for IsLoggedIn Middleware
+// Middleware to check if user is logged in
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
   res.redirect("/login");
 }
+
+
 // Error page
 router.get('/error-404_code-438362404', function (req, res, next) {
   res.render('error');
