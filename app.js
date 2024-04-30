@@ -1,17 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-try {
-  var MongoStore = require('connect-mongo')(session);
-} catch (error) {
-  console.error('Error initializing MongoStore:', error);
-}
 
 
 var indexRouter = require('./routes/index');
@@ -31,10 +27,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days in milliseconds 
-      secure: true, // Set to true since your application is served over HTTPS
-      httpOnly: true, // Set to true to prevent client-side access to the session cookie
-      // You can also set other cookie options like domain, path, etc.
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true, 
+      httpOnly: true,
   }
 }));
 
