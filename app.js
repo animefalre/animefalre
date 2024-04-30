@@ -7,6 +7,7 @@ var logger = require('morgan');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
+const MongoStore = require('connect-mongo'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,38 +18,35 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+console.log('1) URI: ' + process.env.MONGO_URI);
 
-try {
-  const MongoStore = new require('connect-mongo')(session);
-  const store = new MongoStore({
-      url: process.env.MONGO_URI,
-  });
-  console.log('1) URI: ' + process.env.MONGO_URI);
-} catch (error) {
-  console.error('Error initializing MongoStore:', error);
+const sessionConfig = {
+  secret: 'animeflare secret_code-4004', 
+  resave: true, 
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  }
+};
+
+// Set secure option only in production environment (HTTPS)
+if (process.env.NODE_ENV === 'production') {
+  sessionConfig.cookie.secure = true;
 }
-console.log('2) URI: ' + process.env.MONGO_URI);
 
-// app.use(session({
-  //   store: new MongoStore({ 
-    //       url: process.env.MONGO_URI,
-//   }),
-//   secret: 'session-code-10101',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//       maxAge: 1000 * 60 * 60 * 24 * 7,
-//       secure: true, 
-//       httpOnly: true,
-//   }
-// }));
+app.use(session(sessionConfig));
+
 
 // Express session and Passport initialistion //
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: "session-code-10101"
-}));
+// app.use(session({
+//   resave: false,
+//   saveUninitialized: false,
+//   secret: "session-code-10101"
+// }));
 
 
 app.use(flash());
