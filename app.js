@@ -7,7 +7,11 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-const MongoStore = require('connect-mongo')(session);
+try {
+  var MongoStore = require('connect-mongo')(session);
+} catch (error) {
+  console.error('Error initializing MongoStore:', error);
+}
 
 
 var indexRouter = require('./routes/index');
