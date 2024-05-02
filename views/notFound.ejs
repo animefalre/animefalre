@@ -12,9 +12,9 @@
   crossorigin="anonymous"></script>
 </head>
 <body id="body">
-    <% include components/header.ejs %>
+    <%- include('partials/header.ejs') %>
     <main class="relative">
-        <% include components/nav.ejs %>
+        <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 overflow-scroll h-screen text-center">
             <div class="mt-40"><span class="material-symbols-outlined text-[70px] text-zinc-400">
                 troubleshoot
@@ -24,7 +24,7 @@
             <a href="/home" class="p-1 bg-zinc-600 rounded-[8px] active:bg-zinc-700 w-full sm:w-64">Back to the Home</a>
         </div>
     </main>
-    <% include components/footer.ejs %>
+    <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
 </body>
 </html>

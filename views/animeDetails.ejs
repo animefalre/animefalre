@@ -14,9 +14,9 @@
   crossorigin="anonymous"></script>
 </head>
 <body id="body">
-    <% include components/header.ejs %>
+    <%- include('partials/header.ejs') %>
     <main class="relative">
-        <% include components/nav.ejs %>
+        <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 overflow-scroll h-screen">
             <div class="inner mt-4">
                 <img src="<%= animeData.poster %>" onerror="this.src='/images/posters/<%= animeData.poster %>';" class="w-36 rounded-[10px]">
@@ -55,7 +55,7 @@
             </div>
         </div>
     </main>
-    <% include components/footer.ejs %>
+    <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
 </body>
 </html>

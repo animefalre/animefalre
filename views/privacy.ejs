@@ -39,7 +39,7 @@
     </header>
     
     <main class="relative">
-        <% include components/nav.ejs %>
+        <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 h-screen overflow-scroll">
             <h2 class="text-[24px] font-bold mb-4">Privacy Policy Page</h2>
 
@@ -71,7 +71,7 @@
             <p>For privacy-related inquiries or concerns, contact us at animeflare.site@gmail.com.</p>
         </div>
     </main>
-    <% include components/footer.ejs %>
+    <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
 </body>
 </html>

@@ -10,9 +10,9 @@
   <title>Anime Flare</title>
 </head>
 <body id="body">
-    <% include components/header.ejs %>
+    <%- include('partials/header.ejs') %>
     <main class="relative">
-        <% include components/nav.ejs %>
+        <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 overflow-scroll h-screen text-center relative">
             <div class="text-[12px] mt-[-52px] shadow-2xl shadow-black font-semibold bg-zinc-600 p-2 rounded-[10px] absolute right-4 w-fit top-4" id="popup-box">Your request has been sent</div>
             <form action="/feedback" method="post" class="w-full relative h-[440px]" id="feedback-form">
@@ -32,7 +32,7 @@
             </form>
         </div>
     </main>
-    <% include components/footer.ejs %>
+    <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
     <script>
         let translateYValue = 0;
