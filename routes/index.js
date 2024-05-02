@@ -874,18 +874,10 @@ router.get('/check-loggedin', async (req, res, next) => {
 // login route
 router.post("/login", function(req, res, next) {
   passport.authenticate("local", {
-    successRedirect: "/about",
+    successRedirect: "/home",
     failureRedirect: "/login",
     failureFlash: true // Enable failure flash messages
-  })
-  // (req, res, function(err) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-  //   // If authentication failed due to user not found, display a custom flash message
-  //   req.flash("error", "User not found");
-  //   res.redirect("/login");
-  // });
+  })(req, res, next); // Call the authenticate middleware and pass req, res, and next
 });
 
 //logout route
