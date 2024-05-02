@@ -1,7 +1,12 @@
+// JavaScript code to hide loading animation with fade-out animation
 window.addEventListener('load', function() {
-  document.getElementById('loading-overlay').style.display = 'none';
-  document.getElementById('body').style.display = 'block'; // Show content
+  var loadingOverlay = document.getElementById('loading-overlay');
+  loadingOverlay.classList.add('fade-out');
+  setTimeout(function() {
+      loadingOverlay.style.display = 'none';
+  }, 500); // Duration of fade-out animation (500ms)
 });
+
 
 document.addEventListener("DOMContentLoaded", function() {
     var fadeComplete = function(e) { stage.appendChild(arr[0]); };
