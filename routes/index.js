@@ -921,7 +921,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  userModel.findOne(id, function(err, user) {
+  userModel.findById(id).exec(function(err, user) {
     done(err, user);
   });
 });
