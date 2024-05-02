@@ -7,7 +7,7 @@ var logger = require('morgan');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-const MongoStore = require('connect-mongo'); 
+// const MongoStore = require('connect-mongo'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,25 +20,32 @@ app.set('view engine', 'ejs');
 
 
 // Express session initialistion //
-const sessionConfig = {
-  secret: 'animeflare secret_code-4004', 
-  resave: true, 
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
-  }),
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 28,
-    httpOnly: true,
-  }
-};
+// const sessionConfig = {
+//   secret: 'animeflare secret_code-4004', 
+//   resave: true, 
+//   saveUninitialized: false,
+//   store: MongoStore.create({
+//     mongoUrl: process.env.MONGO_URI
+//   }),
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 24 * 28,
+//     httpOnly: true,
+//   }
+// };
 
 // Set secure option only in production environment (HTTPS)
-if (process.env.NODE_ENV === 'production') {
-  sessionConfig.cookie.secure = true;
-}
+// if (process.env.NODE_ENV === 'production') {
+//   sessionConfig.cookie.secure = true;
+// }
 
-app.use(session(sessionConfig));
+app.use(session({
+  secret: 'animeflare_secret_code-4004', 
+   resave: true, 
+   saveUninitialized: false, 
+   store: MongoStore.create({
+     mongoUrl: process.env.MONGO_URI
+   })
+}));
 
 
 // Passport initialistion //
@@ -53,9 +60,9 @@ passport.deserializeUser(usersRouter.deserializeUser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: 'https://recall-web-url.web.app'
-}));
+// app.use(cors({
+//   origin: 'https://recall-web-url.web.app'
+// }));
 
 app.use(logger('dev'));
 app.use(express.json());
