@@ -7,7 +7,7 @@ var logger = require('morgan');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-// const MongoStore = require('connect-mongo'); 
+const MongoStore = require('connect-mongo'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
