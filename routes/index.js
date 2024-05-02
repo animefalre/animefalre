@@ -874,7 +874,7 @@ router.get('/check-loggedin', async (req, res, next) => {
 // login route
 router.post("/login", function(req, res, next) {
   passport.authenticate("local", {
-    successRedirect: "/home",
+    successRedirect: "/about",
     failureRedirect: "/login",
     failureFlash: true // Enable failure flash messages
   })
