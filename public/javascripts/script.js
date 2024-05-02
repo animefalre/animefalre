@@ -1,3 +1,8 @@
+window.addEventListener('load', function() {
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('content').style.display = 'block'; // Show content
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     var fadeComplete = function(e) { stage.appendChild(arr[0]); };
     var stage = document.getElementById("slider");
