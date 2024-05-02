@@ -24,14 +24,14 @@
 }
 
 .spinner {
-  border: 4px solid #828282; /* Purple border (zinc-600) */
-  border-top: 4px solid #FF2B2B; /* Red border */
+  border: 6px solid #828282; /* Purple border (zinc-600) */
+  border-top: 6px solid #FF2B2B; /* Red border */
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: spin 2s linear infinite;
   /* Lighting effect */
-  background: linear-gradient(145deg, #a5a5a580, #d9d9d9);
+  background: linear-gradient(145deg, #a5a5a580, #ffffff08);
 }
 
 @keyframes spin {
