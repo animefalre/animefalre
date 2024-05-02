@@ -7,7 +7,7 @@ var logger = require('morgan');
 const passport = require('passport');
 const flash = require('connect-flash');
 const cors = require('cors');
-// const MongoStore = require('connect-mongo'); 
+const MongoStore = require('connect-mongo'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -41,7 +41,13 @@ app.set('view engine', 'ejs');
 app.use(session({
   secret: 'animeflare_secret_code-4004', 
    resave: true, 
-   saveUninitialized: false
+   saveUninitialized: false, 
+   store: MongoStore.create({
+     mongoUrl: process.env.MONGO_URI
+   }),
+   cookie: {
+     maxAge: 28 * 24 * 60 * 60 * 1000 // 28 days in milliseconds
+   }
 }));
 
 
