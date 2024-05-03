@@ -64,9 +64,9 @@
   </style>
 </head>
 <body id="body">
-  <%- include('partials/loader.ejs') %>
-    <%- include('partials/header.ejs') %>
-    <main class="relative">
+  <%- include('partials/header.ejs') %>
+  <main class="relative">
+      <%- include('partials/loader.ejs') %>
         <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 h-screen overflow-scroll">
             <button onclick="toggle(element)" id="searchButton" class="select-none item-center justify-center flex rounded-[50%] bg-zinc-600 active:scale-90 duration-200 absolute top-[-50px] right-14 h-8 w-8" style="padding-top: 3px;padding-bottom: 4px;">

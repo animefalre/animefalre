@@ -14,28 +14,28 @@
   <title>Anime Flare | Watch Anime and 3D Donghua Online For Free</title>
 </head>
 <body id="body">
-  <%- include('partials/loader.ejs') %>
-  <header class="sticky">
+  <header class="sticky z-[1001px]">
     <div class="header-content border-b-2 border-black gap-2 w-full bg-[#191919] text-white flex item-center drop-shadow-lg py-[12px]">
         <div class="flex items-center ml-2">
             <button style="display: flex; align-items: center;" class="active:bg-zinc-800 duration-200 rounded-[50%] w-[33px] h-[33px] justify-center">
                 <span id="nav-open" class="flex item-center  duration-200"><span class=" material-symbols-outlined">
-                    menu
+                  menu
                 </span></span>
                 <span id="nav-close" class="flex item-center duration-200"><span class=" material-symbols-outlined">
                     close
-                    </span></span>
-            </button>
-        </div>
-        <div class="logo text-[22px] ml-1" title="Home"><img src="/images/Anime-cut.png" class="w-32" alt="Anime Flare logo"></div>
-        <a href="/login">
-            <div class="proile-pic absolute top-4 right-3" title="Login"><img src="/images/user-icon.png" alt="" class="w-8"></div>
-        </a>
-    </div>
-</header>
-
-  <main>
-    <div class="main-content bg-zinc-800 w-full h-screen">
+                  </span></span>
+                </button>
+              </div>
+              <div class="logo text-[22px] ml-1" title="Home"><img src="/images/Anime-cut.png" class="w-32" alt="Anime Flare logo"></div>
+              <a href="/login">
+                <div class="proile-pic absolute top-4 right-3" title="Login"><img src="/images/user-icon.png" alt="" class="w-8"></div>
+              </a>
+            </div>
+          </header>
+          
+          <main>
+            <%- include('partials/loader.ejs') %>
+            <div class="main-content bg-zinc-800 w-full h-screen">
       <div id="slider" class="sticky">
         <a class="slider-img bg-zinc-800" href="/images/intro-banner/btth.jpg"><img class="slider-img h-screen" src="/images/intro-banner/btth.jpg"></a>
         <a class="slider-img bg-zinc-800" href="/images/intro-banner/Jade-Dynasty-Season-2.jpg"><img class="slider-img h-screen" src="/images/intro-banner/Jade-Dynasty-Season-2.jpg"></a>

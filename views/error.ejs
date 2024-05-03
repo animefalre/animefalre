@@ -10,8 +10,7 @@
   <title>Anime Flare</title>
 </head>
 <body id="body">
-    <%- include('partials/loader.ejs') %>
-    <header class="sticky">
+    <header class="sticky z-[1001px]">
         <div class="header-content border-b-2 border-black gap-2 w-full bg-[#191919] text-white flex item-center drop-shadow-lg py-[12px]">
             <div class="flex item-center ml-2">
                 <button style="display: flex; align-items: center;" class="active:bg-zinc-800 duration-200 rounded-[50%] w-[33px] h-[33px] justify-center">
@@ -21,7 +20,7 @@
                     <span id="nav-close" class="flex item-center duration-200"><span class=" material-symbols-outlined">
                         close
                         </span></span>
-                </button>
+                    </button>
             </div>
             <a href="/home"><div class="logo text-[22px] ml-1" title="Home"><img src="/images/Anime-cut.png" class="w-32" alt="Anime Flare logo"></div></a>
             <a href="/check-loggedin">
@@ -30,6 +29,7 @@
         </div>
     </header>
     <main class="relative">
+        <%- include('partials/loader.ejs') %>
         <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 overflow-scroll h-screen text-center">
             <div class="mt-40"><span class="material-symbols-outlined text-[70px] text-zinc-400">

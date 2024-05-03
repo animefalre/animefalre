@@ -4,7 +4,7 @@ window.addEventListener('load', function() {
   loadingOverlay.classList.add('fade-out');
   setTimeout(function() {
       loadingOverlay.style.display = 'none';
-  }, 1000); // Duration of fade-out animation (500ms)
+  }, 1000); // Duration of fade-out animation (1s)
 });
 
 

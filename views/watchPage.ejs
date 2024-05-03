@@ -14,9 +14,9 @@
   crossorigin="anonymous"></script>
 </head>
 <body id="body" onscroll="navPosition()">
-  <%- include('partials/loader.ejs') %>
-    <%- include('partials/header.ejs') %>
-    <main class="relative">
+  <%- include('partials/header.ejs') %>
+  <main class="relative">
+      <%- include('partials/loader.ejs') %>
         <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 h-screen overflow-scroll">
             <h1 class="ep-name text-white text-[20px] font-semibold mt-4 mb-3"><%= episodeData.episodeTitle %> <%= seasonData.seasonNo %></h1>

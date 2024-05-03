@@ -13,8 +13,7 @@
   <title>Login | Anime Flare</title>
 </head>
 <body id="body">
-    <%- include('partials/loader.ejs') %>
-    <header class="sticky">
+    <header class="sticky z-[1001px]">
         <div class="header-content border-b-2 border-black gap-2 w-full bg-[#191919] text-white flex item-center drop-shadow-lg py-[12px]">
             <div class="flex item-center ml-2">
                 <button style="display: flex; align-items: center;" class="active:bg-zinc-800 duration-200 rounded-[50%] w-[33px] h-[33px] justify-center">
@@ -23,13 +22,14 @@
                     </span></span>
                     <span id="nav-close" class="flex item-center duration-200"><span class=" material-symbols-outlined">
                         close
-                        </span></span>
+                    </span></span>
                 </button>
             </div>
             <div class="logo text-[22px] ml-1" title="Home"><img src="/images/Anime-cut.png" class="w-32" alt="Anime Flare logo"></div>
         </div>
     </header>
     <main class="relative">
+        <%- include('partials/loader.ejs') %>
         <marquee class="text-white bg-zinc-800 absolute" >Watch you favourite Anime and 3D Donghua For Free in Anime <span class="text-[#FF1C1C] font-semibold">Flare</span>.</marquee>
         <div class="register-page flex item-center justify-center w-full h-screen bg-zinc-800">
 
