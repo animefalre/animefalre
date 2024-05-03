@@ -3,7 +3,7 @@ window.addEventListener('load', function() {
   var loadingOverlay = document.getElementById('loading-overlay');
   loadingOverlay.classList.add('fade-out');
   setTimeout(function() {
-      loadingOverlay.style.display = 'flex';
+      loadingOverlay.style.display = 'none';
   }, 1000); // Duration of fade-out animation (500ms)
 });
 
