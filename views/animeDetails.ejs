@@ -20,7 +20,9 @@
         <%- include('partials/nav.ejs') %>
         <div class="flex flex-col w-full bg-zinc-800 text-white p-4 overflow-scroll h-screen">
             <div class="inner mt-4">
-                <img src="<%= animeData.poster %>" onerror="this.src='/images/posters/<%= animeData.poster %>';" class="w-36 rounded-[10px]">
+                <div class="w-36 h-[202px] rounded-[10px] bg-zinc-600">
+                    <img src="<%= animeData.poster %>" onerror="this.src='/images/posters/<%= animeData.poster %>';" class="w-full h-full object-cover rounded-[10px]">
+                </div>
                 <h1 class="text-[22px] mt-2 mb-2"><%= animeData.name %> <%= seasonData.displayName %></h1>
                 <a class="bg-[#fe2626] py-1 px-3 rounded-[7px] font-semibold active:bg-red-800 duration-200" href="/anime/watch/<%= animeData.animeId %>/S1/ep1">Play from beginning</a>
                 <h2 class="text-[18px] mt-4 mb-2">Seasons</h2>

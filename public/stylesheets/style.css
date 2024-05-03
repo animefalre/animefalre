@@ -20,7 +20,7 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  animation: fadeIn 0.5s forwards; /* Fade-in animation */
+  animation: fadeIn 1s forwards; /* Fade-in animation */
 }
 
 .spinner {
@@ -51,7 +51,7 @@
 
 /* Apply fade-out animation to loading overlay when hiding */
 .fade-out {
-  animation: fadeOut 0.5s forwards;
+  animation: fadeOut 1s forwards;
 }
 
 

@@ -906,61 +906,6 @@ function isLoggedIn(req, res, next) {
   res.redirect("/login");
 }
 
-// index.js (routes)
-
-// // Passport configuration
-// passport.serializeUser(function(user, done) {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser(function(id, done) {
-//   userModel.findById(id).exec(function(err, user) {
-//     done(err, user);
-//   });
-// });
-
-// // Login route
-// router.post("/login", passport.authenticate("local", {
-//   successRedirect: "/home",
-//   failureRedirect: "/login",
-//   failureFlash: true // Enable failure flash messages
-// }));
-
-// // Check if logged in route
-// router.get('/check-loggedin', async (req, res, next) => {
-//   if (req.isAuthenticated()) {
-//     const user = await userModel.findOne({ username: req.user.username });
-//     res.redirect('/account/' + user.username);
-//   } else {
-//     res.redirect('/login');
-//   }
-// });
-
-// // Logout route
-// router.get('/logout', function(req, res) {
-//   req.logout();
-//   res.redirect('/login');
-// });
-
-// // Delete account route
-// router.get('/delete-account', isLoggedIn, async function (req, res, next) {
-//   try {
-//     await userModel.findOneAndDelete({ _id: req.user._id });
-//     req.logout();
-//     res.render('deletedAccount');
-//   } catch (err) {
-//     console.error('Error deleting account:', err);
-//     res.status(500).send('Failed to delete account');
-//   }
-// });
-
-// // Middleware to check if user is logged in
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     return next();
-//   }
-//   res.redirect("/login");
-// }
 
 
 // Error page
