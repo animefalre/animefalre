@@ -378,6 +378,15 @@ router.post('/account-update', upload.single('profileImg'), handleImageUpload, a
     const username = req.user.username;
     const userPic = req.imageURL;
 
+    const user = await userModel.findOne({ username: username });
+    const previousPicUrl = user.userPic;
+
+    if (previousPicUrl) {
+      const publicId = extractPublicId(previousPicUrl);
+
+      await cloudinary.uploader.destroy(publicId);
+    }
+
     const updatedUser = await userModel.findOneAndUpdate(
       { username: username },
       { $set: { userPic: userPic } },
@@ -392,6 +401,11 @@ router.post('/account-update', upload.single('profileImg'), handleImageUpload, a
   }
 });
 
+function extractPublicId(url) {
+  const startIndex = url.lastIndexOf("/") + 1;
+  const endIndex = url.lastIndexOf(".");
+  return url.substring(startIndex, endIndex);
+}
 
 // Admin login form route
 router.get('/admin/login', function(req, res) {
