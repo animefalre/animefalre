@@ -80,7 +80,7 @@
                       <% relatedAnime.forEach(function(anime) { %>
                         <a href="/anime/detail/<%= anime.animeId %>/<%= 'S' + anime.season.length %>">
                           <div class="post row-post">
-                            <img class="poster-img" src="<%= anime.poster %>" onerror="this.src='/images/posters/<%= anime.poster %>';">
+                            <img class="poster-img w-full" src="<%= anime.poster %>" onerror="this.src='/images/posters/<%= anime.poster %>';">
                             <p class="title"><%= anime.name %></p>
                           </div>
                         </a>
