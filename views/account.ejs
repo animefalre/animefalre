@@ -28,7 +28,7 @@
                 <div class="w-full mt-6 flex item-center justify-center">
                     <div class="relative">
                         <% if (user.userPic) { %>
-                            <img src="<%= user.userPic %>" onerror="this.src='/images/profile-img/<%= user.userPic %>'" alt="user Pic" class="w-32 h-32 rounded-full">
+                            <img src="<%= user.userPic %>" alt="user Pic" class="w-32 h-32 rounded-full">
                           <% } else { %>
                             <img src="/images/user-icon.png" alt="Default Profile Image" class="w-32 h-32 rounded-full">
                           <% } %>
