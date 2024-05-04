@@ -38,7 +38,7 @@ const upload = multer({ storage: imageStorage });
 async function handleImageUpload(req, res, next) {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).json({ error: "No file uploaded, Please upload thumbnail" });
     }
     let folderName;
     switch (req.file.fieldname) {
