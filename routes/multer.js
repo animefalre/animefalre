@@ -37,6 +37,9 @@ const upload = multer({ storage: imageStorage });
 
 async function handleImageUpload(req, res, next) {
   try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
     let folderName;
     switch (req.file.fieldname) {
       case "posterImg":
@@ -69,7 +72,7 @@ async function handleImageUpload(req, res, next) {
     next();
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: "Something went wrong in multer js cloudinary, may be file is missing." });
   }
 }
 
