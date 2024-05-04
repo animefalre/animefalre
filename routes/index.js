@@ -513,11 +513,21 @@ router.post('/update-banner', upload.single('bannerImg'), handleImageUpload, asy
 
 //Upload route
 router.post('/upload-donghua', upload.single('posterImg'), handleImageUpload, async function(req, res) {
-  if(!req.file) {
-    return res.status(400).send('No file were uploaded.');
+  const cloudURL = req.body.cloudURL;
+
+  var poster;
+  if (!req.file) {
+    if (cloudURL) {
+      poster = cloudURL;
+    } else {
+      return res.status(404).send({ error: "Please provide a cloud URL or file" });
+    }
+  } else {
+    poster = req.imageURL;
   }
+
   const Anime = await animeModel.create({
-    poster: req.imageURL,
+    poster: poster,
     name: req.body.name,
     description: req.body.description,
     section: req.body.section,
@@ -554,9 +564,19 @@ router.get('/api/anime/:animeId/seasons', async (req, res) => {
 // Upload route for episodes
 router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, async function(req, res) {
   try {
+    const cloudURL = req.body.cloudURL;
+
+    var thumbnail;
     if (!req.file) {
-      return res.status(400).send('No file was uploaded.');
+      if (cloudURL) {
+        thumbnail = cloudURL;
+      } else {
+        return res.status(404).send({ error: "Please provide a cloud URL or file" });
+      }
+    } else {
+      thumbnail = req.imageURL;
     }
+
 
     const animeId = req.body.animeId; // Get the animeId from the request body
     const season = req.body.season;
@@ -582,7 +602,7 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
     const episode = await episodeModel.create({
       episodeTitle: episodeTitle,
       episodeId: episodeId,
-      thumbnail: req.imageURL,
+      thumbnail: thumbnail,
       animeId: animeId,
       server1: req.body.server1,
       server2: req.body.server2,
