@@ -14,7 +14,9 @@ window.addEventListener('load', function() {
             if (!response.ok) {
                 throw new Error("Response error, Please check the database and API route");
             }
-        } 
+        } else {
+            console.log("Element not found");
+        }
         } catch (error) {
             console.error("Fetching error: " + error);
         }

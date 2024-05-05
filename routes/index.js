@@ -628,12 +628,13 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
 
 // views api
 router.get("/views", async (req, res, next) => {
+  console.log("views route run")
   try {
       const { animeId, episodeId, seasonId, viewsNum } = req.query;
-
+      console.log(`anime: ${animeId}, season: ${seasonId}, episode: ${episodeId}, views no: ${viewsNum}`);
       // Increment view count for episode
       const episode = await episodeModel.findOneAndUpdate(
-          { animeId: animeId, seasonId: seasonId, episodeId: episodeId }, 
+          { animeId: animeId, season: seasonId, episodeId: episodeId }, 
           { $inc: { views: parseInt(viewsNum) } }, 
           { new: true }
       );
@@ -651,7 +652,11 @@ router.get("/views", async (req, res, next) => {
           { $inc: { views: parseInt(viewsNum) } }, 
           { new: true }
       );
-
+      if (anime && episode && season) {
+        console.log("All are found and updated.");
+      } else {
+        console.log("Some issue occurs during updating.");
+      }
       // Send a response if needed
       res.status(200).json({ message: "Views updated successfully." });
   } catch (error) {
