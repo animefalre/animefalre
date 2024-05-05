@@ -136,8 +136,8 @@
                 <div class="poster-cover">
                   <% recentAnime.forEach(function(anime) { %>
                     <a href="/anime/detail/<%= anime.animeId %>/<%= 'S' + anime.season.length %>">
-                      <div class="post row-post w-full">
-                        <img class="poster-img" src="<%= anime.poster %>" onerror="this.src='/images/posters/<%= anime.poster %>';" alt="<%= anime.name %> poster">
+                      <div class="post row-post">
+                        <img class="poster-img w-full" src="<%= anime.poster %>" onerror="this.src='/images/posters/<%= anime.poster %>';" alt="<%= anime.name %> poster">
                         <h1 class="title"><%= anime.name %></h1>
                       </div>
                     </a>
