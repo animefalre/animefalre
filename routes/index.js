@@ -633,7 +633,17 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
 router.post('/create-season', upload.single('seasonImg'), handleImageUpload, async function(req, res) {
   try {
     const animeId = req.body.animeId; // Get the animeId from the request body
-
+    const cloudURL = req.body.cloudURL;
+    var seasonImg;
+    if (!req.file) {
+      if (cloudURL) {
+        seasonImg = cloudURL;
+      } else {
+        return res.status(404).send({ error: "Please provide a cloud URL or file" });
+      }
+    } else {
+      seasonImg = req.imageURL;
+    }  
     // Find the parent anime based on the selected animeId
     const animeData = await animeModel.findOne({ animeId: animeId });
 
@@ -650,7 +660,7 @@ router.post('/create-season', upload.single('seasonImg'), handleImageUpload, asy
       displayName: name, // Season 1
       seasonNo: seasonNo, // S1
       seasonId: seasonId, // S1
-      seasonImg: req.imageURL, // cdvfcdfv.jpg
+      seasonImg: seasonImg, // cdvfcdfv.jpg
       anime: animeName, // Battle through the heaven
       animeId: animeId, // btth
       season: season, // 1
