@@ -651,9 +651,7 @@ router.get("/views", async (req, res, next) => {
           { $inc: { views: parseInt(viewsNum) } }, 
           { new: true }
       );
-      if (!anime || !episode || !season) {
-      res.status(404).json({ error: "Modules are not found and update." });
-      }
+      res.status(200).json({ message: "Modules are found and update." });
   } catch (error) {
       // Handle errors
       console.error("Error updating views:", error);
