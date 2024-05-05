@@ -240,9 +240,11 @@ router.get('/anime/detail/:animeId/:seasonId', isLoggedIn, async function(req, r
     if (!animeData || !seasonData) {
       // If anime or episode is not found, render an error page or redirect to a 404 page
       return res.status(404).redirect('/not-found');
+    } else {
+      res.render('animeDetails', { animeData: animeData, seasonData: seasonData, user: user });
     }
 
-    res.render('animeDetails', { animeData: animeData, seasonData: seasonData, user: user });
+    
   } catch (error) {
     // Handle any errors that occur during the database query
     console.error('Error fetching anime details:', error);

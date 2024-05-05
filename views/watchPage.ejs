@@ -91,7 +91,13 @@
 
               <section id="comment-section">
                 <div>
-                  <p class="text-[18px] mt-4 mb-2">Comments</p>
+                  <div class="text-[18px] mt-4 mb-2 flex justify-between">
+                    <span>Comments</span>
+                    <% if (episodeData.comments.length > 0) { %>
+                      <% const commentCount = episodeData.comments.length; %>
+                      <p class="text-[14px] bg-zinc-400"><%= formatCommentCount(commentCount) %></p>
+                    <% } %>
+                  </div>                  
                   <form action="/comment" method="post" class="w-full relative h-24" id="comment-form">
                     <input type="hidden" name="username" value="<%= user.username %>">
                     <input type="hidden" name="userPic" value="<%= user.userPic %>">
@@ -169,6 +175,15 @@ function DMserver(){
   DMbtn.style.background = 'rgb(39 39 42)';
   YTbtn.style.background = 'rgb(82 82 91)';
 }
+
+function formatCommentCount(count) {
+    if (count > 999) {
+      const thousands = (count / 1000).toFixed(1);
+      return thousands + 'k';
+    } else {
+      return count;
+    }
+  }
 
 // Client-side code (JavaScript)
 // Assuming you're using fetch for making AJAX requests
