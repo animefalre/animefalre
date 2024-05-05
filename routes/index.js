@@ -261,46 +261,45 @@ router.get('/anime/watch/:animeId/:seasonId/:episodeId', isLoggedIn, async funct
     const episodeId = req.params.episodeId;
 
     const user = await userModel.findOne({
-      username: req.session.passport.user});
+      username: req.session.passport.user
+    });
 
-      // Find the anime by its ID
-      const animeData = await animeModel.findOne({ animeId: animeId })
-      .populate("season");
-      const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId })
-      .populate("episodes");
-      
-      // Check if the anime and episode exist
-      if (!animeData || !seasonData) {
-        // If anime or episode is not found, render an error page or redirect to a 404 page
-        return res.status(404).redirect('/not-found');
-      }
-      // Find the episode by its ID
-      const episodeData = await episodeModel.findOne({ animeId: animeId, season: seasonId, episodeId: episodeId }).populate('comments');
-      
-      if (!episodeData) {
-        res.redirect('back');
-      }
-      // Related Anime
-  const tags = ['action', 'romance', 'drama', 'cultivation', 'superpower'];
+    // Find the anime by its ID
+    const animeData = await animeModel.findOne({ animeId: animeId }).populate("season");
+    const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId }).populate("episodes");
 
-  const relatedAnime = await animeModel.find({
-    tags: { $regex: tags.join('|'), $options: 'i' }
-  }).populate("season").sort({ createdAt: -1 }).limit(6).exec();
+    // Check if the anime and episode exist
+    if (!animeData || !seasonData) {
+      // If anime or episode is not found, render an error page or redirect to a 404 page
+      return res.status(404).redirect('/not-found');
+    }
+
+    // Find the episode by its ID
+    const episodeData = await episodeModel.findOne({ animeId: animeId, season: seasonId, episodeId: episodeId }).populate('comments');
+
+    if (!episodeData) {
+      return res.redirect('back');
+    }
+
+    // Related Anime
+    const tags = ['action', 'romance', 'drama', 'cultivation', 'superpower'];
+    const relatedAnime = await animeModel.find({
+      tags: { $regex: tags.join('|'), $options: 'i' }
+    }).populate("season").sort({ createdAt: -1 }).limit(6).exec();
+
     // New Comments
     const newComment = await commentModel.find().sort({ createdAt: -1 }).limit(8).exec();
-      // Assuming createdAtDate is the Date object representing the "AtCreated" date
-      const createdAtDate = new Date(newComment.createdAt);
 
-      // Get the day, month, and year components
-      const day = createdAtDate.getDate();
-      const month = createdAtDate.getMonth() + 1; // Months are zero-based, so add 1
-      const year = createdAtDate.getFullYear();
+    // Assuming createdAtDate is the Date object representing the "AtCreated" date
+    const createdAtDate = new Date(newComment.createdAt);
 
-      // Format the date components to the desired format (dd/mm/yy)
-      const formattedDate = `${day}/${month}/${year % 100}`;
+    // Get the day, month, and year components
+    const day = createdAtDate.getDate();
+    const month = createdAtDate.getMonth() + 1; // Months are zero-based, so add 1
+    const year = createdAtDate.getFullYear();
 
-
-
+    // Format the date components to the desired format (dd/mm/yy)
+    const formattedDate = `${day}/${month}/${year % 100}`;
 
     // If anime and episode are found, render the watchPage with the data
     res.render('watchPage', { animeData: animeData, seasonData: seasonData, episodeData: episodeData, user: user, relatedAnime: relatedAnime, newComment: newComment, formattedDate: formattedDate });
