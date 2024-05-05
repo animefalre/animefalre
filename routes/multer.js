@@ -37,7 +37,7 @@ const upload = multer({ storage: imageStorage });
 
 async function handleImageUpload(req, res, next) {
   try {
-    if (!req.file) {
+    if (req.file) {
     let folderName;
     switch (req.file.fieldname) {
       case "posterImg":
