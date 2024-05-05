@@ -29,7 +29,7 @@
                                       <% recentEpisode.forEach(function(episode) { %>
                                         <a href="/anime/watch/<%= episode.animeId %>/<%= episode.season %>/<%= episode.episodeId %>" target="_blank" rel="noopener noreferrer">
                                           <div class="ep-post row-ep-post">
-                                            <img class="poster-img2" src="<%= episode.thumbnail %>" onerror="this.src='/images/thumbnails/<%= episode.thumbnail %>'" alt="<%= episode.animeId %> ep<%= episode.episodeNo %>">
+                                            <img class="poster-img2" src="<%= episode.thumbnail %>" alt="<%= episode.animeId %> ep<%= episode.episodeNo %>">
                                             <p class="title"><%= episode.episodeTitle %></p>
                                           </div>
                                         </a>
@@ -44,7 +44,7 @@
                                   <% recentAnime.forEach(function(anime) { %>
                                     <a href="/anime/detail/<%= anime.animeId %>/<%= 'S' + anime.season.length %>" target="_blank" rel="noopener noreferrer">
                                       <div class="post row-post">
-                                        <img class="poster-img" src="<%= anime.poster %>" onerror="this.src='/images/posters/<%= anime.poster %>'">
+                                        <img class="poster-img" src="<%= anime.poster %>">
                                         <p class="title"><%= anime.name %></p>
                                       </div>
                                     </a>
