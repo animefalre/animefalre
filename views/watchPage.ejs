@@ -124,9 +124,15 @@
 
         </div>
     </main>
+    <div id="episode-info" 
+     data-anime-id="<%= animeData.animeId %>"
+     data-season-id="<%= seasonData.seasonId %>"
+     data-episode-id="<%= episodeData.episodeId %>"
+     style="display: none;">
+    </div>
     <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
-    <script src="./script.js"></script>
+    <script src="/javascripts/watchpage.js"></script>
     <script>
       
       const prevEp = document.getElementById('prev-ep');

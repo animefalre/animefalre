@@ -28,6 +28,7 @@ const animeSchema = new mongoose.Schema({
   section: [{
     type: String,
   }],
+  views: Number,
   createdAt: {
     type: Date,
     default: Date.now

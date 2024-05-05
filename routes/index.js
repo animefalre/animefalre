@@ -626,8 +626,42 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
   }
 });
 
+// views api
+router.get("/views", async (req, res, next) => {
+  try {
+      const { animeId, episodeId, seasonId, viewsNum } = req.query;
 
-  // Update and Delete routes //
+      // Increment view count for episode
+      const episode = await episodeModel.findOneAndUpdate(
+          { animeId: animeId, seasonId: seasonId, episodeId: episodeId }, 
+          { $inc: { views: parseInt(viewsNum) } }, 
+          { new: true }
+      );
+
+      // Increment view count for season
+      const season = await seasonModel.findOneAndUpdate(
+          { animeId: animeId, seasonId: seasonId }, 
+          { $inc: { views: parseInt(viewsNum) } }, 
+          { new: true }
+      );
+
+      // Increment view count for anime
+      const anime = await animeModel.findOneAndUpdate(
+          { animeId: animeId }, 
+          { $inc: { views: parseInt(viewsNum) } }, 
+          { new: true }
+      );
+
+      // Send a response if needed
+      res.status(200).json({ message: "Views updated successfully." });
+  } catch (error) {
+      // Handle errors
+      console.error("Error updating views:", error);
+      res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update and Delete routes //
 
   // Create seasons
 router.post('/create-season', upload.single('seasonImg'), handleImageUpload, async function(req, res) {

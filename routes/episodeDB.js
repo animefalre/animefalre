@@ -14,6 +14,7 @@ const episodeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'
   }],
+  views: Number,
   createdAt: {
     type: Date,
     default: Date.now
