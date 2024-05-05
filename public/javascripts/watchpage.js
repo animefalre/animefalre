@@ -20,7 +20,7 @@ window.addEventListener('load', function() {
         } catch (error) {
             console.error("Fetching error: " + error);
         }
-    }, 15000); 
+    }, 30000); 
 });
 
   
