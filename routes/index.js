@@ -628,10 +628,8 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
 
 // views api
 router.get("/views", async (req, res, next) => {
-  console.log("views route run")
   try {
       const { animeId, episodeId, seasonId, viewsNum } = req.query;
-      console.log(`anime: ${animeId}, season: ${seasonId}, episode: ${episodeId}, views no: ${viewsNum}`);
       // Increment view count for episode
       const episode = await episodeModel.findOneAndUpdate(
           { animeId: animeId, season: seasonId, episodeId: episodeId }, 
@@ -653,9 +651,7 @@ router.get("/views", async (req, res, next) => {
           { new: true }
       );
       if (anime && episode && season) {
-        console.log("All are found and updated.");
-      } else {
-        console.log("Some issue occurs during updating.");
+      res.status(404).json({ error: "Modules are not found and update." });
       }
       // Send a response if needed
       res.status(200).json({ message: "Views updated successfully." });
