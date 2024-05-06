@@ -108,37 +108,44 @@ router.get('/search-suggestions', async (req, res) => {
   }
 });
 
-
-
-const today = new Date();
-console.log(today);
-today.setHours(0, 0, 0, 0);
-
-// home page
+// Home page route
 router.get('/home', isLoggedIn, async function(req, res, next) {
   try {
-    // Fetch anime data from MongoDB
-    const user = await userModel.findOne({
-      username: req.session.passport.user});
+    const user = await userModel.findOne({ username: req.session.passport.user });
+
+    const today = new Date();
+    console.log(today);
+    today.setHours(0, 0, 0, 0); // Set time to midnight
+
     const animeData = await animeModel.find();
+
     const episodeData = await episodeModel.find();
+
     const todayEpisodes = await episodeModel.find({
-      createdAt: { $gte: today } 
-    }).sort({ createdAt: -1 }).exec();// Find episodes with a createdAt timestamp greater than or equal to today
-    // Banner
+      createdAt: { $gte: today } // Find episodes created today or later
+    }).sort({ createdAt: -1 }).exec();
+
     const banner = await bannerModel.find().sort({ createdAt: -1 }).limit(5).exec();
-    // Popular Anime
-    const popularAnime = await animeModel.find({section: "popular"}).populate("season").sort({ createdAt: -1 }).limit(6).exec();
-    // Recent Anime
-    const recentAnime = await animeModel.find({section: "new"}).sort({ createdAt: -1 }).limit(5).exec();
-    // Other Anime
-    const otherAnime = await animeModel.find({section: "others"}).sort({ createdAt: -1 }).limit(7).exec();
 
+    const popularAnime = await animeModel.find({ section: "popular" }).populate("season").sort({ createdAt: -1 }).limit(6).exec();
 
-    // Render the home page template and pass the anime data
-    res.render('home', { episodeData: episodeData, animeData: animeData, todayEpisodes: todayEpisodes, banner: banner, popularAnime: popularAnime,  recentAnime: recentAnime, otherAnime: otherAnime, user: user });
+    const recentAnime = await animeModel.find({ section: "new" }).sort({ createdAt: -1 }).limit(5).exec();
+
+    const otherAnime = await animeModel.find({ section: "others" }).sort({ createdAt: -1 }).limit(7).exec();
+
+    res.render('home', {
+      episodeData: episodeData,
+      animeData: animeData,
+      todayEpisodes: todayEpisodes,
+      banner: banner,
+      popularAnime: popularAnime,
+      recentAnime: recentAnime,
+      otherAnime: otherAnime,
+      user: user
+    });
   } catch (error) {
-    console.error('Error fetching anime data:', error);
+    // Handle any errors that occur during data fetching
+    console.error('Error fetching data:', error);
     res.status(500).render('error');
   }
 });
