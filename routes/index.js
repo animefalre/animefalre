@@ -474,8 +474,8 @@ route: router.get("/admindata", async (req, res) => {
 router.get('/admin/dashboard_code-365', requireAdminAuthentication, async function(req, res) {
   try {
     // Fetch data from MongoDB
+    const animeData = await animeModel.find().sort({ name: 1 });;
     const recentUsers = await userModel.find({ allowNotification: true }).sort({ createdAt: -1 }).limit(10);
-    const animeData = await animeModel.find();
     const seasonData = await seasonModel.find();
     const episodeData = await episodeModel.find();
     const recentAnime = await animeModel.find().sort({ createdAt: -1 }).limit(7);
