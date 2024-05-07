@@ -480,9 +480,10 @@ router.get('/admin/dashboard_code-365', requireAdminAuthentication, async functi
     const episodeData = await episodeModel.find();
     const recentAnime = await animeModel.find().sort({ createdAt: -1 }).limit(7);
     const recentEpisode = await episodeModel.find().sort({ createdAt: -1 }).limit(7);
+    const mostViewedEpisode = await episodeModel.find().sort({ views: -1 }).limit(10);
 
     // Render the admin dashboard template and pass the fetched data
-    res.render('admin', { animeData, seasonData, episodeData, recentAnime, recentEpisode, recentUsers });
+    res.render('admin', { animeData, seasonData, episodeData, recentAnime, recentEpisode, mostViewedEpisode, recentUsers });
   } catch (error) {
     console.error('Error fetching admin dashboard data:', error);
     res.status(500).render('error');
