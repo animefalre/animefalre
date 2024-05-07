@@ -904,11 +904,40 @@ router.post('/delete-episode', async (req, res) => {
   }
 });
 
-// if (err) {
-//   return next(err);
-// }
-// // If authentication failed due to user not found, display a custom flash message
-// req.flash("error", "User not found");
+router.get("/delete-ep-api", async (req, res) => {
+  try {
+    const animeId = req.query.animeId;
+    const seasonId = req.query.seasonId;
+    const episodeId = req.query.episodeId;
+    
+    const anime = await animeModel.findOne({
+      animeId: animeId,
+    })
+    const season = await seasonModel.findOne({
+      animeId: animeId,
+      seasonId: seasonId,
+    })
+    const episode = await episodeModel.findOneAndDelete({
+      animeId: animeId,
+      season: seasonId,
+      episodeId: episodeId,
+    })
+    if (!anime || !season || !episode) {
+      return res.status(404).send("Models are not found");
+    }
+    anime.episodes.pull(episode._id);
+    season.episodes.pull(episode._id);
+    await anime.save();
+    await season.save();
+    
+    res.json({episode: `anime: ${animeId}, season: ${seasonId}, EP: ${episodeId}, Successfully deleted`})
+  } catch (error) {
+    console.error("Error deleting episode in index API:", error);
+    return res.status(500).send({error: error});
+  }
+
+})
+
 
 // Login and Register code //
 // Register route

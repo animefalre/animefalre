@@ -13,67 +13,188 @@
 <body>
     <main class="">
         <div class="main-container">
-            <section class="section sm:border-b-2 sm:border-zinc-400" id="sec_1">
-                <div class="header w-full h-10 sm:h-14 bg-white drop-shadow-lg flex items-center">
-                    <p class="logo-text text-[20px] sm:text-[30px] ml-4"><span class=" font-semibold">Anime <span class="text-red-500 font-semibold">Flare</span></span><span class="text-[12px] sm:text-[16px] text-zinc-500 ml-2">Admin Panel</span></p>
+          <div class="absolute w-full h-screen z-[3] bg-[#000000a8]" id="check-popup" style="visibility: hidden;">
+            <div class="bg-white absolute z-[4] px-6 py-4 rounded-[10px] absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]">
+              <input type="text" id="check-popup-inp" autocomplete="off" class="bg-zinc-200 p-1 rounded-[5px] text-[18px] w-14" placeholder="_ _ _ _">
+            </div>
+          </div>
+          <div class="absolute w-full h-screen z-[1] bg-[#000000a8]" id="pop-up-box" style="visibility: hidden;">
+            <div class="absolute z-[2] top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%] w-[800px] h-[500px] rounded-[50px] border-2 bg-white p-6">
+              <div id="popup-close" class="text-end ">
+                <span class="material-symbols-outlined text-zinc-500 text-[30px] select-none rounded-[50%] cursor-pointer active:bg-zinc-300 duration-100">
+                  close
+                  </span>
+              </div>
+              <h2 class="text-[28px] font-semibold px-2">Episode Details</h2>
+              <div class="flex w-full">
+                <div class="popup-left flex w-full">
+                  <div class="popup-left-titles p-2">
+                    <div class="py-1 text-[18px]">Title:</div>
+                    <div class="py-1 text-[18px]">Episode no:</div>
+                    <div class="py-1 text-[18px]">Season:</div>
+                    <div class="py-1 text-[18px]">Total views:</div>
+                  </div>
+                  <div class="popup-left-titles p-2 text-zinc-500">
+                    <div id="ep-name" class="py-1 text-[18px]"></div> 
+                    <div id="episode-no" class="py-1 text-[18px]"></div>
+                    <div id="ep-season" class="py-1 text-[18px]"></div>
+                    <div id="views" class="py-1 text-[18px]"></div>
+                  </div>
+                  <div class="ep-thumbnail flex items-center justify-center w-full rounded-md overflow-hidden">
+                    <img src="" id="ep-thumbnail-src" class="w-72 rounded-2xl">
+                  </div>
                 </div>
-                <div class="flex">
-                    <div class="w-full ">
-                        <div class="ad-total-upload text-[17px] sm:text-[24px] font-semibold mt-2 sm:mt-4 ml-4">Total Donghua upload - <span id="ad-total-upload-span"><%= animeData.length %></span></div>
-                        <div class="ad-total-upload text-[17px] sm:text-[24px] font-semibold mt-2 sm:mt-4 ml-4">Total Episode upload - <span id="ad-total-upload-span"><%= episodeData.length %></span></div>
-                        <div class="ad-rectent-up-container px-4 py-2 sm:px-4 sm:py-4">
-                            <p class="text-[16px] sm:text-[20px]">Recent Upload</p>
-                            <div class="ad-recent-up-ep mt-2">
-                                <div class="recent-eps-container">
-                                    <div class="ep-post-cover">
-                                      <% recentEpisode.forEach(function(episode) { %>
-                                        <a href="/anime/watch/<%= episode.animeId %>/<%= episode.season %>/<%= episode.episodeId %>" target="_blank" rel="noopener noreferrer">
-                                          <div class="ep-post row-ep-post">
-                                            <img class="poster-img2" src="<%= episode.thumbnail %>" alt="<%= episode.animeId %> ep<%= episode.episodeNo %>">
-                                            <p class="title"><%= episode.episodeTitle %></p>
-                                          </div>
-                                        </a>
-                                      <% }); %>
-                                  </div>
-                            </div>
+              </div>
+              <div class="my-2 p-2 text-[18px] flex gap-2">
+                Img src: 
+                <span id="img-src" class="bg-zinc-200 rounded-md p-1 flex items-center text-[9.9px] source-code-pro"></span>
+                <div class="w-8 h-8 flex items-center justify-center select-none rounded-[50%] active:bg-zinc-300 cursor-pointer duration-100" id="copy-btn" data-copy-src="">
+                  <span class="material-symbols-outlined">
+                    content_copy
+                    </span>
+                </div>
+              </div>
+              <div class="flex justify-end items-end h-36 w-[748px] gap-2">
+                <button id="ep-del-btn" class="py-1 px-7 text-center flex items-center gap-4 text-[18px] text-white rounded-md bg-red-600 border-2 border-black">Delete</button>
+                <a href="" target="_blank" id="open-ep" rel="noopener noreferrer" class="py-1 px-3 text-center flex items-center gap-4 text-[18px] text-white rounded-md bg-blue-400 border-2 border-black">Open <span class="material-symbols-outlined text-[18px]">open_in_new</span></a>
+              </div>
+            </div>
+          </div>
+          <section class="section sm:border-b-2 sm:border-zinc-400" id="sec_1">
+            <div
+              class="header w-full h-10 sm:h-14 bg-white drop-shadow-lg flex items-center"
+            >
+              <p class="logo-text text-[20px] sm:text-[30px] ml-4">
+                <span class="font-semibold"
+                  >Anime
+                  <span class="text-red-500 font-semibold">Flare</span></span
+                ><span class="text-[12px] sm:text-[16px] text-zinc-500 ml-2"
+                  >Admin Panel</span
+                >
+              </p>
+            </div>
+            <div class="flex">
+              <div class="w-full">
+                <div
+                  class="ad-total-upload text-[17px] sm:text-[24px] font-semibold mt-2 sm:mt-4 ml-4"
+                >
+                  Total Donghua upload -
+                  <span id="ad-total-upload-span"><%= animeData.length %></span>
+                </div>
+                <div
+                  class="ad-total-upload text-[17px] sm:text-[24px] font-semibold mt-2 sm:mt-4 ml-4"
+                >
+                  Total Episode upload -
+                  <span id="ad-total-upload-span"><%= episodeData.length %></span>
+                </div>
+                <div class="ad-rectent-up-container px-4 py-2 sm:px-4 sm:py-4 overflow-x-scroll">
+                  <p class="text-[16px] sm:text-[20px]">Recent Upload</p>
+                  <div class="ad-recent-up-ep mt-2">
+                    <div class="recent-eps-container">
+                      <div class="ep-post-cover">
+                        <% recentEpisode.forEach(function(episode) { %>
+                          <div class="ep-post <%= episode.animeId + '_' + episode.season + '_' + episode.episodeId %> row-ep-post cursor-pointer" id="<%= episode.animeId + '_' + episode.season + '_' + episode.episodeId %>" 
+                          data-episode-name="<%= episode.episodeTitle %>"
+                          data-episode-anime="<%= episode.animeId %>"
+                          data-episode-season="<%= episode.season %>"
+                          data-episode-no="<%= episode.episodeNo %>"
+                          data-episode-id="<%= episode.episodeId %>"
+                          data-views="<%= episode.views %>"
+                          data-cloud-URL="<%= episode.thumbnail %>">
+                            <img
+                              class="poster-img2 <%= episode.animeId + '_' + episode.season + '_' + episode.episodeId %> select-none"
+                              src="<%= episode.thumbnail %>"
+                              alt="<%= episode.animeId %> ep<%= episode.episodeNo %>"
+                            />
+                            <p class="title <%= episode.animeId + '_' + episode.season + '_' + episode.episodeId %> select-none"><%= episode.episodeTitle %></p>
+                          </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ad-recent-anime-container py-1 sm:py-2">
+                    <p class="text-[16px] sm:text-[20px]">Recent Donghua</p>
+                    <div class="new-add-container mt-2">
+                      <div class="poster-cover">
+                        <% recentAnime.forEach(function(anime) { %>
+                        <a
+                          href="/anime/detail/<%= anime.animeId %>/<%= 'S' + anime.season.length %>"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <div class="post row-post">
+                            <img class="poster-img" src="<%= anime.poster %>" />
+                            <p class="title"><%= anime.name %></p>
+                          </div>
+                        </a>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="px-4 py-1">Update Banner</p>
+                <form
+                  action="/update-banner"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="px-4 py-2 w-full sm:w-[550px] h-[170px] sm:h-[161px] flex gap-4 relative"
+                >
+                  <div class="flex flex-col gap-2">
+                    <input
+                      type="file"
+                      class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2"
+                      name="bannerImg"
+                    />
+                    <input
+                      type="text"
+                      class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2"
+                      name="animeName"
+                      placeholder="Enter anime name"
+                    />
+                    <input
+                      type="text"
+                      class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2"
+                      name="link"
+                      placeholder="anime/S1"
+                    />
+                  </div>
+                  <div class="banner-updata-btn absolute bottom-2 sm:right-0">
+                    <button
+                      type="submit"
+                      class="bg-blue-400 rounded-[8px] sm:mt-2 sm:ml-2 w-32 py-1 sm:py-2 font-semibold text-white"
+                    >
+                      Update Image
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                id="email-section"
+                class="w-[700px] h-[500px] border-2 border-zinc-500 h-96 p-3"
+              >
+                <p class="p-2 font-bold">Most viewed Episode</p>
+                <div class="p-4 rounded-[15px] flex items-center flex-col">
+                  <% recentEpisode.forEach(function(episode) { %>
+                    <a
+                      href="/anime/watch/<%= episode.animeId %>/<%= episode.season %>/<%= episode.episodeId %>"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div class="w-[440px] hover:bg-zinc-200 duration-100 overflow-hidden rounded-xl p-3 mt-2 flex gap-4">
+                        <img class="w-36 rounded-xl" src="<%= episode.thumbnail %>" />
+                        <div class="flex flex-col justify-start gap-2">
+                          <p class="text-[16px]"><%= episode.episodeTitle %></p>
+                          <p class="text-[10px] text-zinc-500"><%= episode.createdAt %></p>
                         </div>
-                        <div class="ad-recent-anime-container py-1 sm:py-2">
-                            <p class="text-[16px] sm:text-[20px]">Recent Donghua</p>
-                            <div class="new-add-container mt-2">
-                                <div class="poster-cover">
-                                  <% recentAnime.forEach(function(anime) { %>
-                                    <a href="/anime/detail/<%= anime.animeId %>/<%= 'S' + anime.season.length %>" target="_blank" rel="noopener noreferrer">
-                                      <div class="post row-post">
-                                        <img class="poster-img" src="<%= anime.poster %>">
-                                        <p class="title"><%= anime.name %></p>
-                                      </div>
-                                    </a>
-                                    <% }); %>                  
-                                </div>
-                              </div>
-                        </div>    
-                    </div>
-                    <p class="px-4 py-1">Update Banner</p>
-                    <form action="/update-banner" method="POST" enctype="multipart/form-data" class="px-4 py-2 w-full sm:w-[550px] h-[170px] sm:h-[161px] flex gap-4 relative">
-                      <div class="flex flex-col gap-2">
-                          <input type="file" class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2" name="bannerImg">
-                          <input type="text" class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2" name="animeName" placeholder="Enter anime name">
-                          <input type="text" class="banner-inp bg-zinc-100 rounded-[8px] p-1 sm:p-2" name="link" placeholder="anime/S1">
                       </div>
-                      <div class="banner-updata-btn absolute bottom-2  sm:right-0">
-                          <button type="submit" class="bg-blue-400 rounded-[8px] sm:mt-2 sm:ml-2 w-32 py-1 sm:py-2 font-semibold text-white">Update Image</button>
-                      </div>
-                  </form>                  
-                    </div>
-                    <div id="email-section" class=" w-full border-2 border-zinc-500 h-80 flex items-center flex-col p-3">
-                      <p class="p-2 font-bold">New User Email</p>
-                      <div class="bg-zinc-100 p-4 rounded-[15px]">
-                          <p class="font-semibold text-[18px] py-2"><%= recentUsers.email %></p>
-                      </div>
-                    </div>
+                    </a>
+                    <% }); %>
+  
                 </div>
-            </section>
-            <!-- Upload episode section -->
+              </div>
+            </div>
+          </section>
+              <!-- Upload episode section -->
             <section class="section border-2 border-b-zinc-400 p-4" id="sec_2">
               <p class="episode-heading text-[20px] sm:text-[30px] font-bold">
                 Upload Episode
