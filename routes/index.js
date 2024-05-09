@@ -127,11 +127,11 @@ router.get('/home', isLoggedIn, async function(req, res, next) {
 
     const banner = await bannerModel.find().sort({ createdAt: -1 }).limit(5).exec();
 
-    const popularAnime = await animeModel.find({ section: "popular" }).populate("season").sort({ createdAt: -1 }).limit(6).exec();
+    const popularAnime = await animeModel.find({ section: "popular" }).populate("season").sort({ views: -1 }).limit(6).exec();
 
     const recentAnime = await animeModel.find({ section: "new" }).sort({ createdAt: -1 }).limit(5).exec();
 
-    const otherAnime = await animeModel.find({ section: "others" }).sort({ createdAt: -1 }).limit(7).exec();
+    const otherAnime = await animeModel.find({ section: "others" }).sort({ views: 1 }).limit(7).exec();
 
     res.render('home', {
       episodeData: episodeData,
