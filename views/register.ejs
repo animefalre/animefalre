@@ -61,7 +61,10 @@
                         </label>
                         <p class="text-zinc-400 text-[12px]">Send anime update on email</p>
                     </div>
-                    <button onclick="registerSubmit()" class="bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-2 w-full">Sign up</button>
+                    <button class="submit-btn flex items-center justify-center gap-3 bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-2 w-full">
+                        <span class="submit-loader"></span>
+                        Sign up
+                    </button>
                 </form>
                     <a href="/" class="bg-white text-black py-2 px-3 rounded-[8px]">Cancel</a>
             </div>
@@ -70,5 +73,16 @@
     </main>
     <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
+    <script>
+        const submitLoader = document.querySelector(".submit-loader");
+        submitLoader.style.display = "none";
+        document.querySelector(".submit-btn").addEventListener("click", (e)=> {
+            e.target.disabled = true;
+            e.target.style.cursor = "not-allowed"
+            e.target.style.background = "#a4cdff";
+            submitLoader.style.display = "block"
+            document.querySelector("form").submit();
+        });
+    </script>
 </body>
 </html>

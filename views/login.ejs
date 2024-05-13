@@ -49,7 +49,10 @@
                     <% if(error.length > 0){ %>
                         <p class="error text-red-500 font-semibold"><%= error %></p>
                     <% } %>
-                    <button class="bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-4 w-full active:bg-blue-800 duration-200">Log in</button>
+                    <button class="submit-btn flex items-center justify-center gap-3 bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-4 w-full active:bg-blue-800 duration-200">
+                        <span class="submit-loader"></span>
+                        Log in
+                    </button>
                 </form>
                 <a href="/" class="bg-white text-black py-2 px-3 rounded-[8px] active:bg-zinc-800 duration-200">Cancel</a>
             </div>
@@ -58,5 +61,17 @@
     </main>
     <%- include('partials/footer.ejs') %>
     <script src="/javascripts/script.js"></script>
+    <script>
+        const submitLoader = document.querySelector(".submit-loader");
+        submitLoader.style.display = "none";
+        document.querySelector(".submit-btn").addEventListener("click", (e)=> {
+            e.target.disabled = true;
+            e.target.style.cursor = "not-allowed"
+            e.target.style.background = "#a4cdff";
+            submitLoader.style.display = "block"
+            document.querySelector("form").submit();
+        });
+    </script>
+
 </body>
 </html>
