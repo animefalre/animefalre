@@ -11,15 +11,23 @@
             </button>
         </div>
         <a href="/home"><div class="logo text-[22px] ml-1" title="Home"><img src="/images/Anime-cut.png" class="w-32" alt="Anime Flare logo"></div></a>
-        <a href="/account/<%= user.username %>">
-            <div class="proile-pic absolute right-3 top-4 rounded-full overflow-hidden w-8 h-8" title="Account">
-                <% if (user.userPic) { %>
-                    <img src="<%= user.userPic %>" onerror="this.src='/images/profile-img/<%= user.userPic %>'" alt="user Pic" class="w-8 h-8 rounded-full">
-                  <% } else { %>
-                    <img src="/images/user-icon.png" alt="Default Profile Image" class="w-8 h-8 rounded-full">
-                  <% } %>
 
-            </div>
-        </a>
+        <% if (user) { %>
+            <a href="/account/<%= user.username %>">
+                <div class="proile-pic absolute right-3 top-4 rounded-full overflow-hidden w-8 h-8" title="Account">
+                    <% if (user.userPic) { %>
+                        <img src="<%= user.userPic %>" onerror="this.src='/images/profile-img/<%= user.userPic %>'" alt="user Pic" class="w-8 h-8 rounded-full">
+                    <% } else { %>
+                        <img src="/images/user-icon.png" alt="Default Profile Image" class="w-8 h-8 rounded-full">
+                    <% } %>
+                </div>
+            </a>
+        <% } else { %>
+            <a href="/register">
+                <div class="proile-pic absolute right-3 top-4 rounded-full overflow-hidden w-8 h-8" title="Account">
+                    <img src="/images/user-icon.png" alt="Default Profile Image" class="w-8 h-8 rounded-full">
+                </div>
+            </a>
+        <% } %>
     </div>
 </header>

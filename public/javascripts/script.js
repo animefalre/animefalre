@@ -1,10 +1,9 @@
-// JavaScript code to hide loading animation with fade-out animation
 window.addEventListener('load', function() {
   var loadingOverlay = document.getElementById('loading-overlay');
   loadingOverlay.classList.add('fade-out');
   setTimeout(function() {
       loadingOverlay.style.display = 'none';
-  }, 1000); // Duration of fade-out animation (1s)
+  }, 1000);
 });
 
 
@@ -87,7 +86,6 @@ navClose.addEventListener('click', ()=> {
     ''
   }
 
-
 });
 
 const inputBox = document.getElementById('password');
@@ -106,19 +104,6 @@ function hide() {
     passShow.style.display = "block";
     passHide.style.display = "none";
 };
-
-// const registerForm = document.getElementById('register-form');
-
-// function registerSubmit() {
-//   const emailValue = document.getElementById('email').value; // Move this line inside the function
-//   if(emailValue.length === 0){
-//     alert('Please fill the form completely');
-//   }
-//   else{
-//     registerForm.action = '/register';
-//     registerForm.submit(); // Submit the form
-//   }
-// }
 
 var nav = document.getElementById('nav');
 

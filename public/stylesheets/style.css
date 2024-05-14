@@ -8,7 +8,6 @@
   box-sizing: border-box;
 }
 
-/* styles.css */
 #loading-overlay {
   position: fixed;
   top: 0;
@@ -16,12 +15,11 @@
   width: 100%;
   height: 100%;
   z-index: 1000;
-  /* background-color: #000000c4; */
   background-color: #27272a;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 1s forwards; /* Fade-in animation */
+  animation: fadeIn 1s forwards; 
 }
 
 .submit-loader {
@@ -43,21 +41,6 @@
       transform: rotate(360deg);
   }
   } 
-
-/* .spinner {
-  border: 6px solid #828282; /* Purple border (zinc-600) */
-  /* border-top: 6px solid #FF2B2B; /* Red border */
-  /* border-radius: 50%; */
-  /* width: 50px;
-  height: 50px;
-  animation: spin 2s linear infinite; */
-  /* Lighting effect */
-  /* background: linear-gradient(145deg, #a5a5a580, #ffffff08); */
-  /* }  */
-  /* @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  } */
   
 .loader {
   transform: rotateZ(45deg);
@@ -144,7 +127,6 @@
   to { opacity: 0; }
 }
 
-/* Apply fade-out animation to loading overlay when hiding */
 .fade-out {
   animation: fadeOut 1s forwards;
 }
@@ -157,9 +139,6 @@
   position: absolute;
   pointer-events: none;
 }
-/* #slider a img {
-  height: ;
-} */
 #slider a:nth-of-type(1){
   animation-name: fader;
   animation-delay: 4s;
@@ -179,12 +158,6 @@
 .unlimited{
   text-shadow: 2px 2px 3px black;
 }
-/* .signin:active{
-  background: #000;
-  color: ;
-} */
-/* Initial styles */
-
 .pass-box{
   display: flex;
   position: relative;
@@ -197,7 +170,7 @@
   color: white;
 }
 ::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none; 
 }
 .trending-container, .recent-eps-container, .new-add-container, .others-container{
   display: flex;
@@ -214,7 +187,6 @@
   object-fit: contain;
   max-height: 140px;
   overflow: hidden;
-  /* background-color: #00000066; */
 }
 .poster-img{
   border-radius: 10px;
@@ -261,19 +233,13 @@
   height: 28px;
   margin: 3px;
   display: inline-block;
-  /* background-color: #ff3e3e; */
-  /* border: 1px solid white; */
   color: white;
   border-radius: 5px;
   text-align: center;
 }
-/* #player, #DM-player{
-  width: 100%;
-  height: 154px;
-} */
 iframe {
-  width: 100%; /* Set width to 100% of container */
-  height: 400px; /* Default height */
+  width: 100%; 
+  height: 400px; 
 }
 
 @media screen and (min-width: 768px) {
@@ -282,17 +248,15 @@ iframe {
   }
 }
 
-/* Show the slider on screens smaller than tablets */
 @media screen and (max-width: 767px) {
   #slider {
     display: block;
   }
 }
 
-/* Responsive video dimensions for smaller screens */
 @media screen and (max-width: 768px) {
   iframe {
-    height: 198px; /* Adjust height for smaller screens */
+    height: 198px; 
   }
   .player-cover{
     height: 338px;
@@ -300,7 +264,7 @@ iframe {
 }
 @media screen and (max-width: 425px) {
   iframe {
-    height: 178px; /* Adjust height for screens up to 425px width */
+    height: 178px; 
   }
   .player-cover{
     height: 316px;
@@ -309,7 +273,7 @@ iframe {
 
 @media screen and (max-width: 375px) {
   iframe {
-    height: 175px; /* Adjust height for screens up to 375px width */
+    height: 175px; 
   }
   .player-cover{
     height: 316px;
@@ -318,7 +282,7 @@ iframe {
 
 @media screen and (max-width: 320px) {
   iframe {
-    height: 153px; /* Adjust height for screens up to 320px width */
+    height: 153px; 
   }
   .player-cover{
     height: 291px;
@@ -327,12 +291,12 @@ iframe {
 .main-container {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
-  height: 100vh; /* Adjust as needed */
+  height: 100vh; 
   white-space: nowrap;
 }
 .section {
   scroll-snap-align: start;
-  height: 100vh; /* Adjust as needed */
+  height: 100vh; 
   width: 100%;
 }
 #thumbnail-container{
@@ -352,14 +316,14 @@ iframe {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; /* Set initial opacity to 0 */
-  pointer-events: none; /* Disable pointer events when opacity is 0 */
-  transition: opacity 0.5s ease; /* Add transition for smooth cross-fade */
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity 0.5s ease; 
 }
 
 .slide.active {
   opacity: 1;
-  pointer-events: auto; /* Enable pointer events when opacity is 1 */
+  pointer-events: auto; 
 }
 
 .slide img {
@@ -401,10 +365,6 @@ iframe {
 #search-containerid {
   margin-bottom: 10px;
 }
-/* .season-img {
-  filter: grayscale(100%);
-} */
-
 .dropzone {
   border: 2px dashed #ccc;
   text-align: center;
@@ -430,11 +390,11 @@ iframe {
   width: 12px;
   height: 12px;
   border: 1px solid #ccc;
-  background-color: #2b2c34; /* bg-zinc-700 */
+  background-color: #2b2c34; 
 }
 
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #4b5563; /* bg-zinc-800 */
+  background-color: #4b5563; 
 }
 
 .checkmark:after {

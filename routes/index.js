@@ -14,7 +14,7 @@ const seasonModel = require('./seasonDB');
 const adminModel = require('./admin');
 
 router.get('/check-server-health', (req, res) => {
-  return res.sendStatus(200); // Return a 200 OK response
+  return res.sendStatus(200); 
 })
 
 /* intro page. */
@@ -54,22 +54,27 @@ router.get('/privacy-policy', async function(req, res, next) {
 
 // about page
 router.get('/about', async function(req, res, next) {
-  
+  let user;
   if (req.isAuthenticated()) {
-    const user = await userModel.findOne({
+    user = await userModel.findOne({
       username: req.session.passport.user});
-      res.render('about', { user });
   } else {
-    const user = null;
-    res.render('about', { user });
+    user = null;
   }
+  res.render('about', { user });
 });
 
 
 // header page
-router.get('/header005', isLoggedIn, async function(req, res, next) {
-  const user = await userModel.findOne({
-    username: req.session.passport.user});
+router.get('/header005', async function(req, res, next) {
+  let user;
+  if (req.isAuthenticated()) {
+    user = await userModel.findOne({
+      username: req.session.passport.user});
+  } else {
+    user = null;
+  }
+
 
   res.render('./components/header', { user });
 });
@@ -109,9 +114,15 @@ router.get('/search-suggestions', async (req, res) => {
 });
 
 // Home page route
-router.get('/home', isLoggedIn, async function(req, res, next) {
+router.get('/home', async function(req, res, next) {
   try {
-    const user = await userModel.findOne({ username: req.session.passport.user });
+    let user;
+    if (req.isAuthenticated()) {
+      user = await userModel.findOne({
+        username: req.session.passport.user});
+    } else {
+      user = null;
+    }  
 
     const today = new Date();
     console.log(today);
@@ -150,102 +161,27 @@ router.get('/home', isLoggedIn, async function(req, res, next) {
   }
 });
 
-router.get('/find', async function(req, res, next) {
-  const animeData = await animeModel.findOne({ animeId: 'btth'}).populate("season");
-  const seasonNo = animeData.season.seasonNo;
-  const seasonData = await seasonModel.findOne({ seasonNo: seasonNo })
-  const tags = ['action', 'romance', 'drama', 'cultivation', 'superpower'];
-
-  const relatedAnime = await animeModel.find({
-    tags: { $regex: tags.join('|'), $options: 'i' }
-  }).populate("season").sort({ createdAt: -1 }).limit(6).exec();
-   
-  
-
-
-    const anime = animeData.name;
-    // const seasonId = 'S' + (animeData.season.length + 1);
-    
-  res.send(relatedAnime);
-});
-
-
-
-
-// // Help page
-// router.get('/animeflare/help', isLoggedIn, async function(req, res, next) {
-//   try {
-//     const user = await userModel.findOne({username: req.session.passport.user});
-//     res.render('help', {user});
-  
-//   } catch (error) {
-//     console.error('Error fetching anime data:', error);
-//     res.status(500).redirect('/error-404_code-438362404');
-//   }
-// });
-
-
-// router.post('/feedback', async (req, res) => {
-//   const { email, subject, message } = req.body;
-
-//   console.log('Sender email: ' + email);
-//   console.log('Sender subject: ' + subject);
-//   console.log('Sender message: ' + message);
-
-//   const admin = await adminModel.findOne({ adminNo: 2 });
-//   const authEmail = admin.email;
-//   const pass = admin.mailPassword;
-
-// // Create a Nodemailer transporter
-// const transporter = nodemailer.createTransport({
-//   service: 'Gmail', // Use your email service
-//   auth: {
-//     user: 'help.animeflare@gmail.com',
-//     pass: "",
-//   },
-// });
-
-// // Email options
-// const mailOptions = {
-//   from: email, // Sender's email address
-//   to: 'help.animeflare@gmail.com', // Receiver's email address
-//   subject: subject,
-//   text: message,
-// };
-
-// // Send email
-// transporter.sendMail(mailOptions, (error, info) => {
-//   if (error) {
-//     console.error('Error sending email:', error);
-//     res.status(500).send('Failed to send email');
-//   } else {
-//     console.log('Email sent:', info.response);
-//     res.status(200).send('Email sent successfully');
-//   }
-// });
-
-// res.redirect('back');
-// }); //
-
 
 // Anime detail page
-router.get('/anime/detail/:animeId/:seasonId', isLoggedIn, async function(req, res, next) {
+router.get('/anime/detail/:animeId/:seasonId', async function(req, res, next) {
   try {
     const animeId = req.params.animeId;
     const seasonId = req.params.seasonId;
     
-    const user = await userModel.findOne({
-      username: req.session.passport.user});
+    let user;
+    if (req.isAuthenticated()) {
+      user = await userModel.findOne({
+        username: req.session.passport.user});
+    } else {
+      user = null;
+    }  
 
-    // Find the anime by its ID
     const animeData = await animeModel.findOne({ animeId: animeId })
     .populate("season");
     const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId })
     .populate("episodes");
 
-    // Check if the anime exists
     if (!animeData || !seasonData) {
-      // If anime or episode is not found, render an error page or redirect to a 404 page
       return res.status(404).redirect('/not-found');
     } else {
       res.render('animeDetails', { animeData: animeData, seasonData: seasonData, user: user });
@@ -253,7 +189,6 @@ router.get('/anime/detail/:animeId/:seasonId', isLoggedIn, async function(req, r
 
     
   } catch (error) {
-    // Handle any errors that occur during the database query
     console.error('Error fetching anime details:', error);
     res.status(500).render('error');
   }
@@ -261,34 +196,33 @@ router.get('/anime/detail/:animeId/:seasonId', isLoggedIn, async function(req, r
 
 
 // Anime watch page
-router.get('/anime/watch/:animeId/:seasonId/:episodeId', isLoggedIn, async function(req, res, next) {
+router.get('/anime/watch/:animeId/:seasonId/:episodeId', async function(req, res, next) {
   try {
     const animeId = req.params.animeId;
     const seasonId = req.params.seasonId;
     const episodeId = req.params.episodeId;
 
-    const user = await userModel.findOne({
-      username: req.session.passport.user
-    });
+    let user;
+    if (req.isAuthenticated()) {
+      user = await userModel.findOne({
+        username: req.session.passport.user});
+    } else {
+      user = null;
+    }
 
-    // Find the anime by its ID
     const animeData = await animeModel.findOne({ animeId: animeId }).populate("season");
     const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId }).populate("episodes");
 
-    // Check if the anime and episode exist
     if (!animeData || !seasonData) {
-      // If anime or episode is not found, render an error page or redirect to a 404 page
       return res.status(404).redirect('/not-found');
     }
 
-    // Find the episode by its ID
     const episodeData = await episodeModel.findOne({ animeId: animeId, season: seasonId, episodeId: episodeId }).populate('comments');
 
     if (!episodeData) {
       return res.redirect('back');
     }
 
-    // Related Anime
     const tags = ['action', 'romance', 'drama', 'cultivation', 'superpower'];
     const relatedAnime = await animeModel.find({
       tags: { $regex: tags.join('|'), $options: 'i' }
@@ -297,21 +231,8 @@ router.get('/anime/watch/:animeId/:seasonId/:episodeId', isLoggedIn, async funct
     // New Comments
     const newComment = await commentModel.find().sort({ createdAt: -1 }).limit(8).exec();
 
-    // Assuming createdAtDate is the Date object representing the "AtCreated" date
-    const createdAtDate = new Date(newComment.createdAt);
-
-    // Get the day, month, and year components
-    const day = createdAtDate.getDate();
-    const month = createdAtDate.getMonth() + 1; // Months are zero-based, so add 1
-    const year = createdAtDate.getFullYear();
-
-    // Format the date components to the desired format (dd/mm/yy)
-    const formattedDate = `${day}/${month}/${year % 100}`;
-
-    // If anime and episode are found, render the watchPage with the data
-    res.render('watchPage', { animeData: animeData, seasonData: seasonData, episodeData: episodeData, user: user, relatedAnime: relatedAnime, newComment: newComment, formattedDate: formattedDate });
+    res.render('watchPage', { animeData: animeData, seasonData: seasonData, episodeData: episodeData, user: user, relatedAnime: relatedAnime, newComment: newComment });
   } catch (error) {
-    // Handle any errors that occur during the database query
     console.error('Error fetching anime details:', error);
     res.status(500).render('error');
   }
@@ -358,7 +279,6 @@ router.post('/comment', async (req, res) => {
       animeId: animeId
     });
 
-    // Ensure episode.comments exists before pushing the new comment's ID
     if (!episode.comments) {
       episode.comments = [];
     }
@@ -367,8 +287,6 @@ router.post('/comment', async (req, res) => {
     await episode.save();
 
     res.redirect(req.headers.referer + '#comment-section');
-    // Send a JSON response indicating the URL to redirect to
-    // res.json({ redirectTo: req.headers.referer + '#comment-section' });
   } catch (error) {
     console.error('Error uploading comment:', error);
     res.status(500).send('Error uploading comment.');
@@ -402,7 +320,6 @@ router.post('/account-update', upload.single('profileImg'), handleImageUpload, a
       { new: true }
     );
 
-    // Send the updated user object as response
     res.redirect('/account/' + username );
   } catch (error) {
     console.error('Error updating user:', error);
@@ -439,7 +356,7 @@ router.post('/admin/login', async function(req, res) {
   }
 });
 // Admin data route
-route: router.get("/admindata", async (req, res) => {
+router.get("/admindata", async (req, res) => {
   try {
     const request = req.query.selected;
 
@@ -458,14 +375,13 @@ route: router.get("/admindata", async (req, res) => {
     console.log(`Season: ${season.seasonId}, episode: ${episodeNo}`);
 
     res.json({
-      // Sending response using res.json()
       season: season.season,
       episode: episode,
       episodeNo: episodeNo,
     });
   } catch (error) {
     console.error("An error occurs in Admin data API: " + error);
-    res.status(500).json({ error: "Internal Server Error" }); // Sending error response
+    res.status(500).json({ error: "Internal Server Error" }); 
   }
 });
 
@@ -473,7 +389,6 @@ route: router.get("/admindata", async (req, res) => {
 // Admin dashboard route
 router.get('/admin/dashboard_code-365', requireAdminAuthentication, async function(req, res) {
   try {
-    // Fetch data from MongoDB
     const animeData = await animeModel.find().sort({ name: 1 });;
     const recentUsers = await userModel.find({ allowNotification: true }).sort({ createdAt: -1 }).limit(10);
     const seasonData = await seasonModel.find();
@@ -482,7 +397,6 @@ router.get('/admin/dashboard_code-365', requireAdminAuthentication, async functi
     const recentEpisode = await episodeModel.find().sort({ createdAt: -1 }).limit(7);
     const mostViewedEpisode = await episodeModel.find().sort({ views: -1 }).limit(10);
 
-    // Render the admin dashboard template and pass the fetched data
     res.render('admin', { animeData, seasonData, episodeData, recentAnime, recentEpisode, mostViewedEpisode, recentUsers });
   } catch (error) {
     console.error('Error fetching admin dashboard data:', error);
@@ -490,7 +404,6 @@ router.get('/admin/dashboard_code-365', requireAdminAuthentication, async functi
   }
 });
 
-// Middleware to protect admin routes
 function requireAdminAuthentication(req, res, next) {
   if (req.session.isAdminAuthenticated) {
     next();
@@ -549,27 +462,6 @@ router.post('/upload-donghua', upload.single('posterImg'), handleImageUpload, as
   res.redirect("/admin/dashboard_code-365" + "#sec_3");
 });
 
-
-// Route to handle fetching anime details including seasons
-router.get('/api/anime/:animeId/seasons', async (req, res) => {
-  try {
-    const animeId = req.params.animeId;
-    // Query the database to find the selected anime
-    const anime = await animeModel.findOne({ animeId: animeId });
-    if (!anime) {
-      return res.status(404).send('Anime not found');
-    }
-    // Respond with the seasons of the anime
-    res.json(anime.season);
-  } catch (error) {
-    console.error('Error fetching anime details:', error);
-    res.status(500).render('error');
-  }
-});
-
-
-// Upload episode
-
 // Upload route for episodes
 router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, async function(req, res) {
   try {
@@ -587,19 +479,17 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
     }
 
 
-    const animeId = req.body.animeId; // Get the animeId from the request body
+    const animeId = req.body.animeId; 
     const season = req.body.season;
     const seasonId = 'S' + season;
     const episodeNo = req.body.episodeNo;
     const episodeId = 'ep' + episodeNo;
 
-    // Find the parent anime based on the selected animeId
     const anime = await animeModel.findOne({ animeId: animeId });
     if (!anime) {
       return res.status(404).send('Anime not found');
     }
     
-    // Find the season based on the provided seasonId
     const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId });
     if (!season) {
       return res.status(404).send('Season not found');
@@ -607,7 +497,6 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
 
     const episodeTitle = anime.name + ' ep ' + episodeNo;
 
-    // Create a new episode associated with the anime
     const episode = await episodeModel.create({
       episodeTitle: episodeTitle,
       episodeId: episodeId,
@@ -620,11 +509,9 @@ router.post('/upload-episode', upload.single('thumbnail'), handleImageUpload, as
       episodeNo: episodeNo
     });
 
-    // Update the episodes array in the season document
     seasonData.episodes.push(episode._id);
     await seasonData.save();
 
-    // Update the episodes array in the anime document
     anime.episodes.push(episode._id);
     await anime.save();
 
@@ -661,7 +548,6 @@ router.get("/views", async (req, res, next) => {
       );
       res.status(200).json({ message: "Modules are found and update." });
   } catch (error) {
-      // Handle errors
       console.error("Error updating views:", error);
       res.status(500).json({ error: "Internal server error" });
   }
@@ -672,7 +558,7 @@ router.get("/views", async (req, res, next) => {
   // Create seasons
 router.post('/create-season', upload.single('seasonImg'), handleImageUpload, async function(req, res) {
   try {
-    const animeId = req.body.animeId; // Get the animeId from the request body
+    const animeId = req.body.animeId; 
     const cloudURL = req.body.cloudURL;
     var seasonImg;
     if (!req.file) {
@@ -684,7 +570,6 @@ router.post('/create-season', upload.single('seasonImg'), handleImageUpload, asy
     } else {
       seasonImg = req.imageURL;
     }  
-    // Find the parent anime based on the selected animeId
     const animeData = await animeModel.findOne({ animeId: animeId });
 
     if (!animeData) {
@@ -695,7 +580,6 @@ router.post('/create-season', upload.single('seasonImg'), handleImageUpload, asy
     const season = animeData.season.length + 1;
     const seasonId = 'S' + season;
     const animeName = animeData.name;
-    // Create a new episode associated with the anime
     const newSeason = await seasonModel.create({
       displayName: name, // Season 1
       seasonNo: seasonNo, // S1
@@ -707,10 +591,8 @@ router.post('/create-season', upload.single('seasonImg'), handleImageUpload, asy
       episode: []
     });
 
-    // Update the episodes array in the anime document
-    animeData.season.push(newSeason._id); // Push the episode ID into the episodes array
-    await animeData.save(); // Save the updated anime document
-
+    animeData.season.push(newSeason._id); 
+    await animeData.save(); 
     res.redirect("/admin/dashboard_code-365" + "#sec_4");
   } catch (error) {
     console.error('Error uploading episode:', error);
@@ -721,17 +603,15 @@ router.post('/create-season', upload.single('seasonImg'), handleImageUpload, asy
 // Delete season
 router.post('/delete-season', async (req, res) => {
   try {
-    const animeId = req.body.animeId; // Get the animeId from the request body
+    const animeId = req.body.animeId; 
     const season = req.body.seasonId;
-    const seasonId = 'S' + season; // Get the seasonId from the request body
+    const seasonId = 'S' + season; 
 
-    // Find the parent anime based on the selected animeId
     const animeData = await animeModel.findOne({ animeId: animeId });
 
     if (!animeData) {
       return res.status(404).send('Anime not found');
     }
-    // Find and delete the season
     const seasonData = await seasonModel.findOneAndDelete({ animeId: animeId, seasonId: seasonId });
 
     if (!seasonData) {
@@ -752,7 +632,6 @@ router.post('/delete-season', async (req, res) => {
 // Update Anime
 router.post('/update-donghua', upload.single('posterImg'), handleImageUpload, async function(req, res) {
   try {
-    // Check if file is uploaded
     let poster;
     if (req.file) {
       poster = req.imageURL;
@@ -764,10 +643,8 @@ router.post('/update-donghua', upload.single('posterImg'), handleImageUpload, as
     let tags = req.body.tags;
     let section = req.body.section;
 
-    // Retrieve existing anime data from database
     const existingAnime = await animeModel.findOne({ animeId: animeId });
 
-    // Use existing values if new values are not provided
     if (!newAnimeId) {
       newAnimeId = existingAnime.animeId;
     }
@@ -784,7 +661,6 @@ router.post('/update-donghua', upload.single('posterImg'), handleImageUpload, as
       poster = existingAnime.poster;
     }
 
-    // Update anime with new or existing values
     const updatedAnime = await animeModel.findOneAndUpdate(
       { animeId: animeId },
       { $set: { poster: poster, name: name, animeId: newAnimeId, tags: tags, section: section } },
@@ -803,9 +679,8 @@ router.post('/update-donghua', upload.single('posterImg'), handleImageUpload, as
 // Delete Anime
 router.post('/delete-donghua', async (req, res) => {
   try {
-    const animeId = req.body.animeId; // Get the animeId from the request body
+    const animeId = req.body.animeId; 
     
-    // Find the parent anime based on the selected animeId
     const animeData = await animeModel.findOneAndDelete({ animeId: animeId });
 
     if (!animeData) {
@@ -823,7 +698,6 @@ router.post('/delete-donghua', async (req, res) => {
 // Update Episode
 router.post('/update-episode', upload.single('thumbnail'), handleImageUpload, async function(req, res) {
   try {
-    // Check if file is uploaded
     let thumbnail;
     if (!req.file) {
       return res.status(400).send('No file was uploaded.');
@@ -831,18 +705,16 @@ router.post('/update-episode', upload.single('thumbnail'), handleImageUpload, as
       thumbnail = req.imageURL;
     }
 
-    const animeId = req.body.animeId; // Get the animeId from the request body
+    const animeId = req.body.animeId; 
     const season = req.body.season;
     const seasonId = 'S' + season;
     const episodeId = req.body.episodeId;
 
-    // Find the parent anime based on the selected animeId
     const anime = await animeModel.findOne({ animeId: animeId });
     if (!anime) {
       return res.status(404).send('Anime not found');
     }
 
-    // Find the season based on the provided seasonId
     const seasonData = await seasonModel.findOne({ animeId: animeId, seasonId: seasonId });
     if (!seasonData) {
       return res.status(404).send('Season not found');
@@ -853,7 +725,6 @@ router.post('/update-episode', upload.single('thumbnail'), handleImageUpload, as
     const server1 = req.body.server1 || seasonData.episodes.find(episode => episode.episodeId === episodeId).server1;
     const server2 = req.body.server2 || seasonData.episodes.find(episode => episode.episodeId === episodeId).server2;
 
-    // Update episode with new or existing values
     const updatedEpisode = await animeModel.findOneAndUpdate(
       { animeId: animeId, seasonId: seasonId, episodeId: episodeId },
       { $set: { thumbnail: thumbnail, episodeTitle: episodeTitle, episodeNo: episodeNo, server1: server1, server2: server2 } },
@@ -872,13 +743,12 @@ router.post('/update-episode', upload.single('thumbnail'), handleImageUpload, as
 // Delete Episode
 router.post('/delete-episode', async (req, res) => {
   try {
-    const episodeId = req.body.episodeId; // Get the animeId from the request body
+    const episodeId = req.body.episodeId; 
     
     const episodeData = await episodeModel.findOne({ episodeId: episodeId });
 
     const animeId = episodeData.animeId; // btth
     const seasonId = episodeData.season; // S1
-    // Find the parent anime based on the selected animeId
     const animeData = await animeModel.findOne({ animeId: animeId });
     if (!animeData) {
       return res.status(404).send('Anime not found');
@@ -943,15 +813,14 @@ router.get("/delete-ep-api", async (req, res) => {
 // Login and Register code //
 // Register route
 router.post('/register', function (req, res) {
-  const { username, email, fullname, password, allowNotification } = req.body; // Extract password from req.body
+  const { username, email, fullname, password, allowNotification } = req.body; 
 
-  // Check if password is provided
   if (!password) {
     req.flash('error', 'Password is required');
-    return res.status(400).redirect('/register'); // Redirect to registration page with error flash message
+    return res.status(400).redirect('/register'); 
   }
 
-  const userData = new userModel({ username, email, fullname, password, allowNotification }); // Include password field
+  const userData = new userModel({ username, email, fullname, password, allowNotification }); 
 
   userModel.register(userData, password)
     .then(function (registereduser) {
@@ -969,7 +838,7 @@ router.post('/register', function (req, res) {
         // Other registration error
         req.flash('error', 'Failed to register. Please try again.');
       }
-      res.status(500).redirect('/register'); // Redirect to registration page with error flash message
+      res.status(500).redirect('/register'); 
     });
 });
 
@@ -1003,9 +872,14 @@ router.get('/logout', function (req, res, next) {
 });
 
 // Delete account route
-router.get('/delete-account', isLoggedIn, async function (req, res, next) {
-  const user = await userModel.findOneAndDelete({
-    username: req.session.passport.user});
+router.get('/delete-account', isLoggedIn-, async function (req, res, next) {
+  let user;
+  if (req.isAuthenticated()) {
+    user = await userModel.findOne({
+      username: req.session.passport.user});
+  } else {
+    user = null;
+  }
 
     res.render('deletedAccount');
 

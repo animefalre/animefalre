@@ -66,8 +66,18 @@
                         Sign up
                     </button>
                 </form>
-                    <a href="/" class="bg-white text-black py-2 px-3 rounded-[8px]">Cancel</a>
+                <button onclick="goBack()" class="bg-white text-black py-2 px-3 rounded-[8px] active:bg-zinc-800 duration-200">Cancel</button>
+                <div class="text-white text-[12px] mt-2">Already have account? <a href="/login" class="text-red-400">Login</a></div>
             </div>
+            <div class="w-full h-[2px] bg-zinc-600 my-6"></div>
+        <div class="text-white">
+            <p class="text-md">* Signup Features</p>
+            <ul class="text-sm p-2">
+                <li>• Add Profile Pic</li>
+                <li>• Comments on episodes</li>
+                <li>• And many more</li>
+            </ul>
+        </div>
             <%- include('partials/nav.ejs') %>
         </div>
     </main>
@@ -83,6 +93,9 @@
             submitLoader.style.display = "block"
             document.querySelector("form").submit();
         });
+        function goBack() {
+            window.history.back();
+        }
     </script>
 </body>
 </html>
