@@ -18,62 +18,6 @@ router.get('/check-server-health', (req, res) => {
   return res.sendStatus(200); 
 })
 
-// Dynamic sitemap generation
-router.get('/sitemap.xml', async (req, res) => {
-  try {
-    const animeList = await animeModel.find();
-    const seasonList = await seasonModel.find();
-    const episodeList = await episodeModel.find();
-
-    // Generate URLs for sitemap
-    const urls = [
-      { url: '/home', changefreq: 'daily', priority: 1.0 },
-      { url: '/', changefreq: 'monthly', priority: 0.8 },
-      { url: '/login', changefreq: 'monthly', priority: 0.8 },
-      { url: '/register', changefreq: 'monthly', priority: 0.8 },
-      { url: '/about', changefreq: 'monthly', priority: 0.8 },
-      { url: '/privacy-policy', changefreq: 'monthly', priority: 0.8 },
-    ];
-
-    // // Add dynamic URLs for anime details
-    // seasonList.forEach(season => {
-    //   const { animeId, seasonId } = season;
-    //   urls.push({
-    //     url: `/anime/detail/${animeId}/${seasonId}`,
-    //     changefreq: 'monthly',
-    //     priority: 0.9
-    //   });
-    // });
-
-    // // Add dynamic URL for watching anime
-    // episodeList.forEach(episode => {
-    //   const { animeId, season, episodeId } = episode;
-    //   urls.push({
-    //     url: `/anime/watch/${animeId}/${season}/${episodeId}`,
-    //     changefreq: 'daily',
-    //     priority: 1.0
-    //   });
-    // });
-
-    const sm = sitemap.createSitemap({
-      hostname: 'https://animeflare.us.to',
-      cacheTime: 600000, // 600 sec - cache purge period
-      urls: [{ url: '/home', changefreq: 'daily', priority: 1.0 }]
-    });
-
-    sm.toXML((err, xml) => {
-      if (err) {
-        return res.status(500).end();
-      }
-      res.header('Content-Type', 'application/xml');
-      res.send(xml);
-    });
-  } catch (err) {
-    res.status(500).send('Error generating sitemap');
-  }
-});
-
-
 /* intro page. */
 router.get('/', function(req, res, next) {
   res.render('index');

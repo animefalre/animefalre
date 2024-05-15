@@ -46,6 +46,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/sitemap.xml', async (req, res) => {
+  res.sendFile('sitemap.xml')
+})
+
 // Use routes
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
