@@ -60,6 +60,10 @@ app.use('/user', usersRouter);
 app.get('/sitemap.xml', async (req, res) => {
   try {
 
+    const animeList = await Animes();
+    const seasonList = await Seasons();
+    const episodeList = await Episodes();
+
       // Generate URLs for sitemap
       const urls = [
         { url: '/home', changefreq: 'daily', priority: 1.0 },
@@ -71,7 +75,7 @@ app.get('/sitemap.xml', async (req, res) => {
       ];
 
       // Add dynamic URLs for anime details
-      Seasons().forEach(season => {
+      seasonList.forEach(season => {
           const { animeId, seasonId } = season;
               urls.push({
                   url: `/anime/detail/${animeId}/${seasonId}`,
@@ -81,7 +85,7 @@ app.get('/sitemap.xml', async (req, res) => {
       });
 
       // Add dynamic URL for watching anime
-      Episodes().forEach(episode => {
+      episodeList.forEach(episode => {
           const { animeId, season, episodeId } = episode;
                   urls.push({
                       url: `/anime/watch/${animeId}/${season}/${episodeId}`,
