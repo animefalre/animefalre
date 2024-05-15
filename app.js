@@ -6,12 +6,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('passport');
 const flash = require('connect-flash');
-const MongoStore = require('connect-mongo'); 
+const MongoStore = require('connect-mongo');
 const sitemap = require('sitemap');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const { Animes, Seasons, Episodes } = require('./animeService');
+const animeModel = require('./routes/animeDB');
+const seasonModel = require('./routes/seasonDB');
+const episodeModel = require('./routes/episodeDB');
 
 var app = express();
 
@@ -19,49 +21,45 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+// Session middleware
 app.use(session({
-  secret: 'animeflare_secret_code-4004', 
-   resave: true, 
-   saveUninitialized: false, 
-   store: MongoStore.create({
-     mongoUrl: process.env.MONGO_URI
-   }),
-   cookie: {
-     maxAge: 28 * 24 * 60 * 60 * 1000 // 28 days in milliseconds
-   }
+  secret: 'animeflare_secret_code-4004',
+  resave: true,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI
+  }),
+  cookie: {
+    maxAge: 28 * 24 * 60 * 60 * 1000 // 28 days in milliseconds
+  }
 }));
 
-
-// Passport initialistion //
-app.use(flash());
+// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(usersRouter.serializeUser());
-passport.deserializeUser(usersRouter.deserializeUser());
+app.use(flash());
 
+// Passport serialization and deserialization
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  // Find user by id and pass it to done
+});
 
-// Parse JSON and URL-encoded bodies
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
+// Middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use routes
-app.use('/', indexRouter);
-app.use('/user', usersRouter);
-
 // Dynamic sitemap generation
 app.get('/sitemap.xml', async (req, res) => {
   try {
-    const animeList = await Animes();
-    const seasonList = await Seasons();
-    const episodeList = await Episodes();
+    const animeList = await animeModel.find();
+    const seasonList = await seasonModel.find();
+    const episodeList = await episodeModel.find();
 
     // Generate URLs for sitemap
     const urls = [
@@ -111,18 +109,22 @@ app.get('/sitemap.xml', async (req, res) => {
   }
 });
 
-// catch 404 and forward to error handler
+// Routes
+app.use('/', indexRouter);
+app.use('/user', usersRouter);
+
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals,
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });
