@@ -101,14 +101,15 @@ app.get('/sitemap.xml', async (req, res) => {
   
   sm.toXML((err, xml) => {
     if (err) {
-      console.error('Error generating sm.toXML sitemap: ', err);
-      return res.status(500).end();
+      console.error('Error generating sitemap:', err);
+      return res.status(500).send('Error generating sitemap');
     }
-    res.header('Content-Type', 'application/xml');
-    res.send(xml);
+    res.set('Content-Type', 'application/xml'); // Set content type
+    res.status(200).send(xml); // Send response
   });
   } catch (error) {
-    res.status(500).send('ROOT Error generating sitemap: ', error);
+    console.error('ROOT Error generating sitemap:', error);
+    return res.status(500).send('ROOT Error generating sitemap');
   }
   
 })
