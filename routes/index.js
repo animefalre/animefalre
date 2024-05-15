@@ -35,25 +35,25 @@ router.get('/sitemap.xml', async (req, res) => {
       { url: '/privacy-policy', changefreq: 'monthly', priority: 0.8 },
     ];
 
-    // Add dynamic URLs for anime details
-    seasonList.forEach(season => {
-      const { animeId, seasonId } = season;
-      urls.push({
-        url: `/anime/detail/${animeId}/${seasonId}`,
-        changefreq: 'monthly',
-        priority: 0.9
-      });
-    });
+    // // Add dynamic URLs for anime details
+    // seasonList.forEach(season => {
+    //   const { animeId, seasonId } = season;
+    //   urls.push({
+    //     url: `/anime/detail/${animeId}/${seasonId}`,
+    //     changefreq: 'monthly',
+    //     priority: 0.9
+    //   });
+    // });
 
-    // Add dynamic URL for watching anime
-    episodeList.forEach(episode => {
-      const { animeId, season, episodeId } = episode;
-      urls.push({
-        url: `/anime/watch/${animeId}/${season}/${episodeId}`,
-        changefreq: 'daily',
-        priority: 1.0
-      });
-    });
+    // // Add dynamic URL for watching anime
+    // episodeList.forEach(episode => {
+    //   const { animeId, season, episodeId } = episode;
+    //   urls.push({
+    //     url: `/anime/watch/${animeId}/${season}/${episodeId}`,
+    //     changefreq: 'daily',
+    //     priority: 1.0
+    //   });
+    // });
 
     const sm = sitemap.createSitemap({
       hostname: 'https://animeflare.us.to',
