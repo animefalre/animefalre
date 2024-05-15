@@ -12,4 +12,5 @@ Disallow: /search-suggestions
 Disallow: /account
 Disallow: /error-404_code-438362404
 Disallow: /register
+Disallow: /delete-ep-api
 Sitemap: https://animeflare.us.to/sitemap.xml
