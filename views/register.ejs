@@ -32,52 +32,52 @@
         <div class="register-page flex item-center justify-center w-full h-screen bg-zinc-800">
             
             <form action="/register" id="register-form"  method="post">
-            <div class="w-64 mt-16 h-84 rounded-[20px] bg-white drop-shadow-lg flex flex-col text-center gap-2 p-4 bg-zinc-700">
-                <p class="text-[20px] text-white mb-4">Register Now</p>
-                    <input type="text" placeholder="Full name" name="fullname" id="fullname" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
-                    <input type="text" placeholder="Username" name="username" id="username" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
-                    <input type="email" placeholder="Email" name="email" id="email" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
-                    <div class="pass-box ">
-                        <input type="password" name="password" placeholder="Password" id="password" class="border-2 border-[grey] rounded-[7px] w-full p-1 bg-zinc-700" required>
-                        <span id="show" class="ml-[-5px] absolute right-2 top-[7px]" onclick="show()"><span class="material-symbols-outlined text-[21px]">
-                            visibility
-                            </span></span>
-                        <span id="hide" class="ml-[-5px] absolute right-2 top-[7px]" onclick="hide()"><span class="material-symbols-outlined  text-[21px]">
-                            visibility_off
-                            </span></span>
-                    </div>
-                    <% if (error) { %>
-                    <div class="alert alert-danger text-red-400"><%= error %></div>
-                    <% } %>
-                      
-                    <% if (success) { %>
-                    <div class="alert alert-success text-red-400"><%= success %></div>
-                    <% } %>
-                      
-                    <div class="flex gap-2 items-center">
-                        <label class="checkbox-container">
-                            <input type="checkbox" name="allowNotification" class="hidden" id="allowNotification" value="allow" checked>
-                            <span class="checkmark"></span>
-                        </label>
-                        <p class="text-zinc-400 text-[12px]">Send anime update on email</p>
-                    </div>
-                    <button class="submit-btn flex items-center justify-center gap-3 bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-2 w-full">
-                        <span class="submit-loader"></span>
-                        Sign up
-                    </button>
-                </form>
-                <button onclick="goBack()" class="bg-white text-black py-2 px-3 rounded-[8px] active:bg-zinc-800 duration-200">Cancel</button>
-                <div class="text-white text-[12px] mt-2">Already have account? <a href="/login" class="text-red-400">Login</a></div>
-            </div>
-            <div class="w-full h-[2px] bg-zinc-600 my-6"></div>
-        <div class="text-white">
-            <p class="text-md">* Signup Features</p>
-            <ul class="text-sm p-2">
-                <li>• Add Profile Pic</li>
-                <li>• Comments on episodes</li>
-                <li>• And many more</li>
-            </ul>
-        </div>
+                <div class="w-64 mt-16 h-84 rounded-[20px] bg-white drop-shadow-lg flex flex-col text-center gap-2 p-4 bg-zinc-700">
+                    <p class="text-[20px] text-white mb-4">Register Now</p>
+                        <input type="text" placeholder="Full name" name="fullname" id="fullname" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
+                        <input type="text" placeholder="Username" name="username" id="username" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
+                        <input type="email" placeholder="Email" name="email" id="email" class="border-2 border-[grey] rounded-[7px] p-1 bg-zinc-700 w-full" required>
+                        <div class="pass-box ">
+                            <input type="password" name="password" placeholder="Password" id="password" class="border-2 border-[grey] rounded-[7px] w-full p-1 bg-zinc-700" required>
+                            <span id="show" class="ml-[-5px] absolute right-2 top-[7px]" onclick="show()"><span class="material-symbols-outlined text-[21px]">
+                                visibility
+                                </span></span>
+                            <span id="hide" class="ml-[-5px] absolute right-2 top-[7px]" onclick="hide()"><span class="material-symbols-outlined  text-[21px]">
+                                visibility_off
+                                </span></span>
+                        </div>
+                        <% if (error) { %>
+                        <div class="alert alert-danger text-red-400"><%= error %></div>
+                        <% } %>
+                        
+                        <% if (success) { %>
+                        <div class="alert alert-success text-red-400"><%= success %></div>
+                        <% } %>
+                        
+                        <div class="flex gap-2 items-center">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="allowNotification" class="hidden" id="allowNotification" value="allow" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                            <p class="text-zinc-400 text-[12px]">Send anime update on email</p>
+                        </div>
+                        <button class="submit-btn flex items-center justify-center gap-3 bg-blue-400 text-white py-2 px-3 rounded-[8px] mt-2 w-full">
+                            <span class="submit-loader"></span>
+                            Sign up
+                        </button>
+                        <button onclick="goBack()" class="bg-white text-black py-2 px-3 rounded-[8px] active:bg-zinc-800 duration-200">Cancel</button>
+                        <div class="text-white text-[12px] mt-2">Already have account? <a href="/login" class="text-red-400">Login</a></div>
+                </div>
+                <div class="w-full h-[2px] bg-zinc-600 my-6"></div>
+                <div class="text-white">
+                    <p class="text-md">* Signup Features</p>
+                    <ul class="text-sm p-2">
+                        <li>• Add Profile Pic</li>
+                        <li>• Comments on episodes</li>
+                        <li>• And many more</li>
+                    </ul>
+                </div>
+            </form>
             <%- include('partials/nav.ejs') %>
         </div>
     </main>
