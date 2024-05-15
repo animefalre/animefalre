@@ -58,7 +58,7 @@ router.get('/sitemap.xml', async (req, res) => {
     const sm = sitemap.createSitemap({
       hostname: 'https://animeflare.us.to',
       cacheTime: 600000, // 600 sec - cache purge period
-      urls: urls
+      urls: [{ url: '/home', changefreq: 'daily', priority: 1.0 }]
     });
 
     sm.toXML((err, xml) => {
