@@ -11,6 +11,10 @@ const sitemap = require('sitemap');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const animeModel = require('./routes/animeDB');
+const episodeModel = require('./routes/episodeDB');
+const seasonModel = require('./routes/seasonDB');
+
 
 
 var app = express();
@@ -55,7 +59,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // })
 
 app.get('/sitemap.xml', async (req, res) => {
-  const animeList = await animeModel.find().lean();
+  try {
+    const animeList = await animeModel.find().lean();
   const seasonList = await seasonModel.find().lean();
   const episodeList = await episodeModel.find().lean();
   
@@ -96,12 +101,15 @@ app.get('/sitemap.xml', async (req, res) => {
   
   sm.toXML((err, xml) => {
     if (err) {
-      console.error('Error generating sitemap:', err);
+      console.error('Error generating sm.toXML sitemap: ', err);
       return res.status(500).end();
     }
     res.header('Content-Type', 'application/xml');
     res.send(xml);
   });
+  } catch (error) {
+    res.status(500).send('ROOT Error generating sitemap: ', error);
+  }
   
 })
 
