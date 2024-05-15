@@ -872,7 +872,7 @@ router.get('/logout', function (req, res, next) {
 });
 
 // Delete account route
-router.get('/delete-account', isLoggedIn-, async function (req, res, next) {
+router.get('/delete-account', isLoggedIn, async function (req, res, next) {
   let user;
   if (req.isAuthenticated()) {
     user = await userModel.findOne({
