@@ -50,69 +50,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get('/sitemap.xml', (req, res) => {
-//    // Construct the full path to the sitemap.xml file
-//    const filePath = path.join(__dirname, 'sitemap.xml');
+app.get('/sitemap.xml', (req, res) => {
+   // Construct the full path to the sitemap.xml file
+   const filePath = path.join(__dirname, 'sitemap.xml');
 
-//    // Send the sitemap.xml file
-//    res.sendFile(filePath);
-// })
-
-app.get('/sitemap.xml', async (req, res) => {
-  try {
-    const animeList = await animeModel.find().lean();
-  const seasonList = await seasonModel.find().lean();
-  const episodeList = await episodeModel.find().lean();
-  
-  const urls = [
-    { url: '/home', changefreq: 'daily', priority: 1.0 },
-    { url: '/', changefreq: 'monthly', priority: 0.8 },
-    { url: '/login', changefreq: 'monthly', priority: 0.8 },
-    { url: '/register', changefreq: 'monthly', priority: 0.8 },
-    { url: '/about', changefreq: 'monthly', priority: 0.8 },
-    { url: '/privacy-policy', changefreq: 'monthly', priority: 0.8 },
-  ];
-  
-  // Add dynamic URLs for anime details
-  seasonList.forEach(season => {
-    const { animeId, seasonId } = season;
-    urls.push({
-      url: `/anime/detail/${animeId}/${seasonId}`,
-      changefreq: 'monthly',
-      priority: 0.9
-    });
-  });
-  
-  // Add dynamic URL for watching anime
-  episodeList.forEach(episode => {
-    const { animeId, season, episodeId } = episode;
-    urls.push({
-      url: `/anime/watch/${animeId}/${season}/${episodeId}`,
-      changefreq: 'daily',
-      priority: 1.0
-    });
-  });
-  
-  const sm = sitemap.createSitemap({
-    hostname: 'https://animeflare.us.to',
-    cacheTime: 600000, // 600 sec - cache purge period
-    urls: urls
-  });
-  
-  sm.toXML((err, xml) => {
-    if (err) {
-      console.error('Error generating sitemap:', err);
-      return res.status(500).send('Error generating sitemap');
-    }
-    res.set('Content-Type', 'application/xml'); // Set content type
-    res.status(200).send(xml); // Send response
-  });
-  } catch (error) {
-    console.error('ROOT Error generating sitemap:', error);
-    return res.status(500).send('ROOT Error generating sitemap');
-  }
-  
+   // Send the sitemap.xml file
+   res.sendFile(filePath);
 })
+
 
 // Use routes
 app.use('/', indexRouter);
