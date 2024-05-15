@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /admin/dashboard_code-365
+Disallow: /admindata
+Disallow: /admin/login
+Disallow: /private
+Disallow: /views
+Disallow: /check-loggedin
+Disallow: /logout
+Disallow: /delete-account
+Disallow: /login
+Disallow: /search-suggestions
+Disallow: /account
+Disallow: /error-404_code-438362404
+Disallow: /register
+Sitemap: https://animeflare.us.to/sitemap.xml
