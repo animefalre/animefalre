@@ -267,7 +267,6 @@
                       type="url"
                       placeholder="https://www.youtube.com/embed/video-link"
                       name="server1"
-                      oninput="prePlay()"
                       id="inp-server1-link"
                       class="bg-zinc-100 rounded-[8px] p-1 sm:p-2"
                       autocomplete="off"
@@ -581,9 +580,7 @@
     <script src="/javascripts/adminScript.js"></script>
     <script>
       const inpThumbnail = document.getElementById('inp-thumbnail');
-      const inpServer1 = document.getElementById('inp-server1-link');
       var preThumbnail = document.getElementById('thumbnail-container');
-      var prePlayer = document.getElementById('pre-player');
 
       function selectValue() {
         var consDisplay = document.getElementById('selected-anime').value;
@@ -592,9 +589,6 @@
 
       function preThumb() {
         preThumbnail.src = inpThumbnail.value;
-      }
-      function prePlay() {
-        prePlayer.src = inpServer1.value;
       }
 
       function selectedAnime() {
