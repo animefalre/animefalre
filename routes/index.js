@@ -241,8 +241,14 @@ router.get('/anime/watch/:animeId/:seasonId/:episodeId', async function(req, res
 
 // Not Found
 router.get('/not-found', async (req, res) => {
-  const user = await userModel.findOne({
-    username: req.session.passport.user});
+  let user;
+  if (req.isAuthenticated()) {
+    user = await userModel.findOne({
+      username: req.session.passport.user});
+  } else {
+    user = null;
+  }
+
 
   res.render('notFound', {user: user});
 })
