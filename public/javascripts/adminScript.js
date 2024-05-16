@@ -116,7 +116,6 @@ function handleInput(event) {
   let replacementWord;
   let punctuation;
 
-  // Define specific replacements
   if (inputText.includes('youtu.be')) {
     wordToReplace = 'youtu.be';
     replacementWord = 'www.youtube.com/embed';
@@ -130,22 +129,24 @@ function handleInput(event) {
     replacementWord = 'www.dailymotion.com/embed/video';
     punctuation = '?'
   } else {
-    wordToReplace = ''; // Default case if no specific word is found
+    wordToReplace = '';
     replacementWord = '';
+    punctuation = '';
   }
 
-  // Replace the word in the input text
   let newText = inputText;
   if (wordToReplace && replacementWord) {
     newText = replaceWord(inputText, wordToReplace, replacementWord);
   }
 
-  // Update the input field with the new text
-  event.target.value = newText + punctuation + 'autoplay=1';
+  if (punctuation === '') {
+    event.target.value = newText;
+  } else {
+    event.target.value = newText + punctuation + 'autoplay=1';
+  }
   prePlay();
 }
 
-// Attach event listener to all input elements with class 'inp-url'
 const inputElements = document.querySelectorAll('.inp-url');
 inputElements.forEach(input => {
   input.addEventListener('input', handleInput);
