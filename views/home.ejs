@@ -130,7 +130,7 @@
                     <% todayEpisodes.forEach(function(episode) { %>
                       <a href="/anime/watch/<%= episode.animeId %>/<%= episode.season %>/<%= episode.episodeId %>">
                         <div class="ep-post row-ep-post">
-                          <img class="poster-img2" src="<%= episode.thumbnail %>" alt="<%= episode.anime %> episode <%= episode.episodeNo %>">
+                          <img class="poster-img2 object-cover" src="<%= episode.thumbnail %>" alt="<%= episode.anime %> episode <%= episode.episodeNo %>">
                           <h1 class="title"><%= episode.episodeTitle %></h1>
                         </div>
                       </a>
